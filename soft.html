@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>88n77 — Софт</title>
   <meta name="description" content="Опис софту та проекту — 88n77.">
+  <meta property="og:title" content="88n77 — Автоматизація не має меж">
+  <meta property="og:description" content="Авторські скрипти, софти та боти для автоматизації ваших акаунтів.">
+  <meta property="og:image" content="https://88n77.com.ua/assets/img/og.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -65,6 +70,7 @@
         <li><a href="index.html#faq" class="nav-link">FAQ</a></li>
       </ul>
       <div class="flex items-center gap-2">
+        <button id="langToggle" aria-label="Мова / Language" class="h-10 px-3 grid place-items-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition text-sm font-bold">EN</button>
         <button id="themeToggle" aria-label="Перемкнути тему" class="w-10 h-10 grid place-items-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
           <i class="ti ti-sun text-xl hidden dark:block"></i>
           <i class="ti ti-moon text-xl block dark:hidden"></i>
@@ -95,21 +101,19 @@
   <script>
     // ===== Theme =====
     const root = document.documentElement;
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') root.classList.remove('dark');
-    if (saved === 'dark') root.classList.add('dark');
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') root.classList.remove('dark');
+    if (savedTheme === 'dark') root.classList.add('dark');
     document.getElementById('themeToggle').addEventListener('click', () => {
       root.classList.toggle('dark');
       localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
     });
 
-    // ===== Реєстр софтів (наповнюємо текстом по кожному) =====
     const STATUS = {
       working: { cls:'st-working', label:'Working' },
       dev:     { cls:'st-dev',     label:'In development' },
       update:  { cls:'st-update',  label:'Updating' },
     };
-
     const PLATFORM = {
       windows: { i:'ti-brand-windows', l:'Windows' },
       mac:     { i:'ti-brand-apple',   l:'macOS' },
@@ -117,9 +121,10 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-
     const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':30 };
+    const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
+    // ===== UA контент =====
     const SOFTS = {
       'dac-chain': {
         name:'Dac Chain', status:'working', tags:['testnet','Запити'],
@@ -144,14 +149,14 @@
           'Телеграм сповіщення',
           'Підтримка оновлення софта протягом усього періоду',
         ],
-        about:`<p>DaChain — це <strong class="font-semibold text-zinc-900 dark:text-white">Layer-1</strong> блокчейн для роботи з <strong class="font-semibold text-zinc-900 dark:text-white">RWA</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">AI</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">DeFi</strong> та безпечною валідацією даних. Екосистема будується навколо двох токенів: <strong class="font-semibold text-brand-orange">DACC</strong> — нативна валюта мережі для газу й нагород валідаторам, і <strong class="font-semibold text-brand-orange">DACT</strong> — токен на базі Ethereum з фіксованою пропозицією 1 млрд і дефляційною моделлю buyback-and-burn.</p><p class="mt-4">Інвестицій поки не заявлено; серед партнерів — <strong class="font-semibold text-zinc-900 dark:text-white">Unicorn</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Truebit</strong> та <strong class="font-semibold text-zinc-900 dark:text-white">Q-Alliance</strong>. Триває тестнет + квести на публічній платформі.</p>`,
+        about:`<p>DaChain — це <strong class="${B}">Layer-1</strong> блокчейн для роботи з <strong class="${B}">RWA</strong>, <strong class="${B}">AI</strong>, <strong class="${B}">DeFi</strong> та безпечною валідацією даних. Екосистема будується навколо двох токенів: <strong class="${O}">DACC</strong> — нативна валюта мережі для газу й нагород валідаторам, і <strong class="${O}">DACT</strong> — токен на базі Ethereum з фіксованою пропозицією 1 млрд і дефляційною моделлю buyback-and-burn.</p><p class="mt-4">Інвестицій поки не заявлено; серед партнерів — <strong class="${B}">Unicorn</strong>, <strong class="${B}">Truebit</strong> та <strong class="${B}">Q-Alliance</strong>. Триває тестнет + квести на публічній платформі.</p>`,
       },
       'litvm': {
         name:'LitVM', status:'update', tags:['testnet','Запити'],
         site:'https://app.arkada.gg/?ref=PAHZ4',
         banner:'assets/img/litvm.jpg',
         features:'Наразі софт доробляється під новий етап проєкту.',
-        about:`<p>LitVM — це віртуальна машина <strong class="font-semibold text-zinc-900 dark:text-white">Litecoin</strong>: <strong class="font-semibold text-zinc-900 dark:text-white">ZK-омнічейн</strong>, що додає функціональність <strong class="font-semibold text-zinc-900 dark:text-white">EVM Layer-2</strong> до мережі Litecoin. Інноваційний <strong class="font-semibold text-zinc-900 dark:text-white">zkRollup</strong>, який працює без довіри (<strong class="font-semibold text-zinc-900 dark:text-white">trustless</strong>) та об'єднує екосистеми <strong class="font-semibold text-zinc-900 dark:text-white">Bitcoin</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Ethereum</strong> і <strong class="font-semibold text-zinc-900 dark:text-white">Litecoin</strong>.</p><p class="mt-4">Технологічний стек базується на <strong class="font-semibold text-zinc-900 dark:text-white">BTC_OS</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Polygon CDK</strong> та <strong class="font-semibold text-zinc-900 dark:text-white">AggLayer</strong> — це дає повноцінні смарт-контракти, високу масштабованість і безшовну взаємодію між мережами.</p><p class="mt-4"><strong class="font-semibold text-brand-orange">51%</strong> виділено під ком'юніті — за тестнет можуть сипнути. Точних інвестицій немає, але проект повноцінно розробляє команда <strong class="font-semibold text-zinc-900 dark:text-white">Litecoin</strong>, частково залучені розробники з <strong class="font-semibold text-zinc-900 dark:text-white">Caldera</strong>. Загалом — тестнет, і зараз це <strong class="font-semibold text-brand-orange">потенційний гем</strong>!</p>`,
+        about:`<p>LitVM — це віртуальна машина <strong class="${B}">Litecoin</strong>: <strong class="${B}">ZK-омнічейн</strong>, що додає функціональність <strong class="${B}">EVM Layer-2</strong> до мережі Litecoin. Інноваційний <strong class="${B}">zkRollup</strong>, який працює без довіри (<strong class="${B}">trustless</strong>) та об'єднує екосистеми <strong class="${B}">Bitcoin</strong>, <strong class="${B}">Ethereum</strong> і <strong class="${B}">Litecoin</strong>.</p><p class="mt-4">Технологічний стек базується на <strong class="${B}">BTC_OS</strong>, <strong class="${B}">Polygon CDK</strong> та <strong class="${B}">AggLayer</strong> — це дає повноцінні смарт-контракти, високу масштабованість і безшовну взаємодію між мережами.</p><p class="mt-4"><strong class="${O}">51%</strong> виділено під ком'юніті — за тестнет можуть сипнути. Точних інвестицій немає, але проект повноцінно розробляє команда <strong class="${B}">Litecoin</strong>, частково залучені розробники з <strong class="${B}">Caldera</strong>. Загалом — тестнет, і зараз це <strong class="${O}">потенційний гем</strong>!</p>`,
       },
       'integra': {
         name:'Integra', status:'working', tags:['testnet','Запити'],
@@ -174,7 +179,7 @@
           'Телеграм сповіщення',
           'Підтримка оновлення софта протягом усього періоду',
         ],
-        about:`<p>Integra — це <strong class="font-semibold text-zinc-900 dark:text-white">L1</strong> чейн з <strong class="font-semibold text-zinc-900 dark:text-white">dApp</strong>-додатками, розробленими для ринку <strong class="font-semibold text-zinc-900 dark:text-white">RWA</strong>.</p><p class="mt-4">Ходить інфо, що проект створено провідними компаніями, активи яких під управлінням перевищують <strong class="font-semibold text-brand-orange">12 млрд доларів</strong> — але точної інформації поки немає, окрім партнерства зі <strong class="font-semibold text-zinc-900 dark:text-white">Slends</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Fibree</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Polytrade</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">RealSplit</strong> та іншими проектами.</p>`,
+        about:`<p>Integra — це <strong class="${B}">L1</strong> чейн з <strong class="${B}">dApp</strong>-додатками, розробленими для ринку <strong class="${B}">RWA</strong>.</p><p class="mt-4">Ходить інфо, що проект створено провідними компаніями, активи яких під управлінням перевищують <strong class="${O}">12 млрд доларів</strong> — але точної інформації поки немає, окрім партнерства зі <strong class="${B}">Slends</strong>, <strong class="${B}">Fibree</strong>, <strong class="${B}">Polytrade</strong>, <strong class="${B}">RealSplit</strong> та іншими проектами.</p>`,
       },
       'prismax': {
         name:'PrismaX', status:'working', tags:['airdrops','Запити','dally'],
@@ -189,7 +194,7 @@
           'Автоматична робота 24/7',
           'Автоматичний daily check-in',
         ],
-        about:`<p>PrismaX — компанія, що розробляє генеративні моделі <strong class="font-semibold text-zinc-900 dark:text-white">штучного інтелекту</strong> для візуальних і роботизованих застосувань, щоб пришвидшити впровадження <strong class="font-semibold text-zinc-900 dark:text-white">робототехніки</strong>.</p><p class="mt-4">Проект залучив <strong class="font-semibold text-brand-orange">$11 млн</strong> інвестицій від <strong class="font-semibold text-zinc-900 dark:text-white">a16z</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Volt Capital</strong> та <strong class="font-semibold text-zinc-900 dark:text-white">Blockchain Builders Fund</strong>.</p>`,
+        about:`<p>PrismaX — компанія, що розробляє генеративні моделі <strong class="${B}">штучного інтелекту</strong> для візуальних і роботизованих застосувань, щоб пришвидшити впровадження <strong class="${B}">робототехніки</strong>.</p><p class="mt-4">Проект залучив <strong class="${O}">$11 млн</strong> інвестицій від <strong class="${B}">a16z</strong>, <strong class="${B}">Volt Capital</strong> та <strong class="${B}">Blockchain Builders Fund</strong>.</p>`,
       },
       'simplechain': {
         name:'SimpleChain', status:'working', tags:['airdrops','Запити','dally'],
@@ -203,97 +208,195 @@
           'Автоматична робота 24/7',
           'Автоматичний daily check-in',
         ],
-        about:`<p>SimpleChain — це <strong class="font-semibold text-zinc-900 dark:text-white">L1</strong> мережа та інфраструктура для токенізації й обігу активів <strong class="font-semibold text-zinc-900 dark:text-white">RWA</strong>.</p><p class="mt-4">Залучили <strong class="font-semibold text-brand-orange">$15 млн</strong> від невідомих фондів — підтвердження у <a href="https://x.com/SimpleChain_RWA/status/2042622209706066038" target="_blank" rel="noopener" class="text-brand-orange font-semibold hover:underline">твіті</a>.</p>`,
+        about:`<p>SimpleChain — це <strong class="${B}">L1</strong> мережа та інфраструктура для токенізації й обігу активів <strong class="${B}">RWA</strong>.</p><p class="mt-4">Залучили <strong class="${O}">$15 млн</strong> від невідомих фондів — підтвердження у <a href="https://x.com/SimpleChain_RWA/status/2042622209706066038" target="_blank" rel="noopener" class="text-brand-orange font-semibold hover:underline">твіті</a>.</p>`,
       },
       'june': {
         name:'June', status:'update', tags:['airdrops','UI'], platforms:['windows','mac'],
         banner:'assets/img/june.jpg',
         features:'Софт оновлюється під новий етап проекту.',
-        about:`<p>June — приватний <strong class="font-semibold text-zinc-900 dark:text-white">AI</strong>-агент від <strong class="font-semibold text-zinc-900 dark:text-white">Blockchain.com</strong>, одного з найстаріших гравців ринку.</p><p class="mt-4">Blockchain.com залучив <strong class="font-semibold text-brand-orange">$600 млн</strong> інвестицій від <strong class="font-semibold text-zinc-900 dark:text-white">Coinbase Ventures</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">Lightspeed Venture Partners</strong>, <strong class="font-semibold text-zinc-900 dark:text-white">GV (Google Ventures)</strong> та <strong class="font-semibold text-zinc-900 dark:text-white">DCG</strong>.</p>`,
+        about:`<p>June — приватний <strong class="${B}">AI</strong>-агент від <strong class="${B}">Blockchain.com</strong>, одного з найстаріших гравців ринку.</p><p class="mt-4">Blockchain.com залучив <strong class="${O}">$600 млн</strong> інвестицій від <strong class="${B}">Coinbase Ventures</strong>, <strong class="${B}">Lightspeed Venture Partners</strong>, <strong class="${B}">GV (Google Ventures)</strong> та <strong class="${B}">DCG</strong>.</p>`,
       },
       'nous': {
         name:'Nous', status:'update', tags:['airdrops','Запити'],
         banner:'assets/img/nous.jpg',
         features:'Софт оновлюється під новий етап проекту.',
-        about:`<p>Nous Research — компанія зі <strong class="font-semibold text-zinc-900 dark:text-white">штучного інтелекту</strong>, що спеціалізується на <strong class="font-semibold text-zinc-900 dark:text-white">open-source</strong> людиноорієнтованих мовних моделях і симуляторах.</p><p class="mt-4">Фокус — на системах ШІ, тісно повʼязаних із реальним користувацьким досвідом: архітектура моделей, синтез даних, точне налаштування та міркування.</p>`,
+        about:`<p>Nous Research — компанія зі <strong class="${B}">штучного інтелекту</strong>, що спеціалізується на <strong class="${B}">open-source</strong> людиноорієнтованих мовних моделях і симуляторах.</p><p class="mt-4">Фокус — на системах ШІ, тісно повʼязаних із реальним користувацьким досвідом: архітектура моделей, синтез даних, точне налаштування та міркування.</p>`,
       },
     };
 
+    // ===== EN-переклад (тільки те, що відрізняється) =====
+    const SOFTS_EN = {
+      'dac-chain': {
+        features:[
+          'Single-task or full-work support',
+          'Run mode: "single" — one by one, "multi" — all at once',
+          'Proxy support: "socks5" or "http"',
+          'Referral code randomization',
+          'Account action randomization',
+          'Daily login',
+          'Claim Standard Early Badge',
+          'Connect Twitter and Discord accounts',
+          'Claim test DACC from the faucet',
+          'On-chain tasks execution',
+          'Social tasks execution',
+          'Opening daily chests',
+          'Mint rank badges',
+          'Telegram notifications',
+          'Free software updates for the whole period',
+        ],
+        about:`<p>DaChain is a <strong class="${B}">Layer-1</strong> blockchain for <strong class="${B}">RWA</strong>, <strong class="${B}">AI</strong>, <strong class="${B}">DeFi</strong> and secure data validation. The ecosystem is built around two tokens: <strong class="${O}">DACC</strong> — the native currency for gas and validator rewards, and <strong class="${O}">DACT</strong> — an Ethereum-based token with a fixed 1B supply and a deflationary buyback-and-burn model.</p><p class="mt-4">No investment announced yet; partners include <strong class="${B}">Unicorn</strong>, <strong class="${B}">Truebit</strong> and <strong class="${B}">Q-Alliance</strong>. Testnet + quests are live on the public platform.</p>`,
+      },
+      'litvm': {
+        features:'The software is currently being finalized for the new stage of the project.',
+        about:`<p>LitVM is a <strong class="${B}">Litecoin</strong> virtual machine: a <strong class="${B}">ZK omnichain</strong> that adds <strong class="${B}">EVM Layer-2</strong> functionality to the Litecoin network. An innovative <strong class="${B}">zkRollup</strong> that works <strong class="${B}">trustless</strong> and unites the <strong class="${B}">Bitcoin</strong>, <strong class="${B}">Ethereum</strong> and <strong class="${B}">Litecoin</strong> ecosystems.</p><p class="mt-4">The tech stack is based on <strong class="${B}">BTC_OS</strong>, <strong class="${B}">Polygon CDK</strong> and <strong class="${B}">AggLayer</strong> — enabling full smart contracts, high scalability and seamless cross-network interaction.</p><p class="mt-4"><strong class="${O}">51%</strong> is allocated to the community — testnet activity may pay off. No exact investment is known, but it is fully developed by the <strong class="${B}">Litecoin</strong> team, with developers from <strong class="${B}">Caldera</strong> partly involved. Overall — a testnet and a <strong class="${O}">potential gem</strong> right now!</p>`,
+      },
+      'integra': {
+        features:[
+          'Run each action separately or all together',
+          'Run mode: "single" — one by one, "multi" — all at once',
+          'Proxy support',
+          'Account action randomization',
+          'Automatic collection of test tokens (two types)',
+          'IRWA creation and IRWA listing',
+          'On-chain interaction',
+          'Automatic CITY entry',
+          'City interaction: checkin / spin / commit XP',
+          'Interaction with the PlotSwap + ChainBNB ecosystem',
+          'Parsing account XP statistics',
+          'Custom RPC support and switching',
+          'Telegram notifications',
+          'Free software updates for the whole period',
+        ],
+        about:`<p>Integra is an <strong class="${B}">L1</strong> chain with <strong class="${B}">dApp</strong> applications built for the <strong class="${B}">RWA</strong> market.</p><p class="mt-4">Word is the project was created by leading firms with over <strong class="${O}">$12 billion</strong> in assets under management — but there is no exact info yet, aside from partnerships with <strong class="${B}">Slends</strong>, <strong class="${B}">Fibree</strong>, <strong class="${B}">Polytrade</strong>, <strong class="${B}">RealSplit</strong> and others.</p>`,
+      },
+      'prismax': {
+        note:'The software works only for daily check-in.',
+        features:[
+          'SOL wallet support',
+          'Proxy support',
+          'Account action randomization',
+          'Automatic 24/7 operation',
+          'Automatic daily check-in',
+        ],
+        about:`<p>PrismaX is a company building generative <strong class="${B}">artificial intelligence</strong> models for visual and robotic applications to accelerate the adoption of <strong class="${B}">robotics</strong>.</p><p class="mt-4">The project raised <strong class="${O}">$11M</strong> from <strong class="${B}">a16z</strong>, <strong class="${B}">Volt Capital</strong> and <strong class="${B}">Blockchain Builders Fund</strong>.</p>`,
+      },
+      'simplechain': {
+        note:'The software works only for daily check-in.',
+        features:[
+          'Proxy support',
+          'Account action randomization',
+          'Automatic 24/7 operation',
+          'Automatic daily check-in',
+        ],
+        about:`<p>SimpleChain is an <strong class="${B}">L1</strong> network and infrastructure for tokenization and circulation of <strong class="${B}">RWA</strong> assets.</p><p class="mt-4">Raised <strong class="${O}">$15M</strong> from undisclosed funds — confirmed in this <a href="https://x.com/SimpleChain_RWA/status/2042622209706066038" target="_blank" rel="noopener" class="text-brand-orange font-semibold hover:underline">tweet</a>.</p>`,
+      },
+      'june': {
+        features:'The software is being updated for the new stage of the project.',
+        about:`<p>June is a private <strong class="${B}">AI</strong> agent by <strong class="${B}">Blockchain.com</strong>, one of the oldest players on the market.</p><p class="mt-4">Blockchain.com raised <strong class="${O}">$600M</strong> from <strong class="${B}">Coinbase Ventures</strong>, <strong class="${B}">Lightspeed Venture Partners</strong>, <strong class="${B}">GV (Google Ventures)</strong> and <strong class="${B}">DCG</strong>.</p>`,
+      },
+      'nous': {
+        features:'The software is being updated for the new stage of the project.',
+        about:`<p>Nous Research is an <strong class="${B}">artificial intelligence</strong> company specializing in <strong class="${B}">open-source</strong>, human-centric language models and simulators.</p><p class="mt-4">The focus is on AI systems closely tied to real user experience: model architecture, data synthesis, fine-tuning and reasoning.</p>`,
+      },
+    };
+
+    // ===== UI-підписи =====
+    const L = {
+      uk: { allSoft:'Усі софти', supported:'Підтримується:', site:'Сайт проекту', about:'Про проект', features:'Можливості софта', iface:'— інтерфейс', wantTitle:'Хочеш цей софт?', wantDesc:'Напиши в Telegram — розкажу деталі й видам доступ.', tgBtn:'Написати в Telegram', notFound:'Софт не знайдено', backList:'До списку софтів' },
+      en: { allSoft:'All soft', supported:'Supported:', site:'Project site', about:'About the project', features:'Soft features', iface:'— interface', wantTitle:'Want this soft?', wantDesc:"Message me on Telegram — I'll share the details and grant access.", tgBtn:'Message on Telegram', notFound:'Soft not found', backList:'Back to soft list' },
+    };
+
+    // ===== Переклад навбару/футера =====
+    const NAV_I18N = { "Софти":"Soft", "Боти":"Bots", "Замовити":"Order", "Як це працює":"How it works" };
+    const navNodes = [];
+    ['header','footer'].forEach(sel => {
+      const el = document.querySelector(sel); if (!el) return;
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let n;
+      while (n = w.nextNode()) { const tr = n.nodeValue.trim(); if (tr && NAV_I18N[tr]) navNodes.push({ n, uk: n.nodeValue, en: n.nodeValue.replace(tr, NAV_I18N[tr]) }); }
+    });
+
     // ===== Рендер =====
-    const esc = (s) => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const esc = (v) => String(v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
     const id = new URLSearchParams(location.search).get('id');
-    const s = SOFTS[id];
+    const base = SOFTS[id];
     const root2 = document.getElementById('softContent');
 
-    if (!s) {
-      root2.innerHTML = `
-        <div class="text-center py-20">
-          <h1 class="font-display font-bold text-3xl">Софт не знайдено</h1>
-          <a href="index.html#soft" class="mt-6 inline-flex items-center gap-2 text-brand-orange font-semibold"><i class="ti ti-arrow-left"></i> До списку софтів</a>
-        </div>`;
-    } else {
+    function render(lang) {
+      const t = L[lang];
+      if (!base) {
+        root2.innerHTML = `<div class="text-center py-20"><h1 class="font-display font-bold text-3xl">${t.notFound}</h1><a href="index.html#soft" class="mt-6 inline-flex items-center gap-2 text-brand-orange font-semibold"><i class="ti ti-arrow-left"></i> ${t.backList}</a></div>`;
+        return;
+      }
+      const s = (lang === 'en' && SOFTS_EN[id]) ? Object.assign({}, base, SOFTS_EN[id]) : base;
       const st = STATUS[s.status] || STATUS.working;
       const platforms = s.platforms || ['windows','mac','linux'];
       const featuresText = Array.isArray(s.features) ? s.features.join('\n') : (s.features || '');
       document.title = `88n77 — ${s.name}`;
       root2.innerHTML = `
         <a href="index.html#soft" class="inline-flex items-center gap-2 text-sm text-zinc-500 hover:text-brand-orange transition mb-6">
-          <i class="ti ti-arrow-left"></i> Усі софти
+          <i class="ti ti-arrow-left"></i> ${t.allSoft}
         </a>
 
-        <!-- Банер -->
         <div class="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 aspect-[3/1]">
           <img src="${esc(s.banner)}" alt="${esc(s.name)}" class="absolute inset-0 w-full h-full object-cover">
           <div class="absolute inset-0 pointer-events-none dark:bg-[radial-gradient(125%_125%_at_50%_42%,transparent_46%,rgba(10,10,10,0.92)_100%)]"></div>
           <span class="status-badge ${st.cls} absolute top-4 left-4 z-10">${st.label}</span>
         </div>
 
-        <!-- Заголовок + теги -->
         <div class="mt-7">
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4 flex-wrap">
               <h1 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight">${esc(s.name)}</h1>
               ${PRICE[id] != null ? `<span class="font-display font-extrabold text-3xl text-brand-orange">$${PRICE[id]}</span>` : ''}
             </div>
-            <div class="flex flex-wrap gap-2">${s.tags.map(t=>`<span class="chip-tag">${esc(t)}</span>`).join('')}</div>
+            <div class="flex flex-wrap gap-2">${s.tags.map(x=>`<span class="chip-tag">${esc(x)}</span>`).join('')}</div>
           </div>
           ${s.tagline ? `<p class="mt-2 text-zinc-500">${esc(s.tagline)}</p>` : ''}
         </div>
 
-        <!-- Платформи -->
         <div class="mt-6 flex flex-wrap items-center gap-3">
-          <span class="text-sm text-zinc-500">Підтримується:</span>
+          <span class="text-sm text-zinc-500">${t.supported}</span>
           ${platforms.map(p=>{ const d=PLATFORM[p]||{i:'ti-device-desktop',l:p}; return `<span class="platform-badge"><i class="ti ${d.i} text-base"></i> ${esc(d.l)}</span>`; }).join('')}
         </div>
 
-        ${s.site ? `<a href="${esc(s.site)}" target="_blank" rel="noopener" class="feat-shimmer mt-6 inline-flex items-center h-11 px-5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900/50 hover:border-brand-orange hover:text-brand-orange font-semibold text-sm transition"><span class="relative z-10 inline-flex items-center gap-2"><i class="ti ti-external-link text-base"></i> Сайт проекту</span></a>` : ''}
+        ${s.site ? `<a href="${esc(s.site)}" target="_blank" rel="noopener" class="feat-shimmer mt-6 inline-flex items-center h-11 px-5 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900/50 hover:border-brand-orange hover:text-brand-orange font-semibold text-sm transition"><span class="relative z-10 inline-flex items-center gap-2"><i class="ti ti-external-link text-base"></i> ${t.site}</span></a>` : ''}
 
-        <!-- Про проект -->
         <section class="mt-12">
-          <h2 class="font-display font-bold text-2xl md:text-3xl mb-6">Про проект</h2>
+          <h2 class="font-display font-bold text-2xl md:text-3xl mb-6">${t.about}</h2>
           <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 md:p-8 text-zinc-600 dark:text-zinc-300 leading-relaxed">${s.about}</div>
         </section>
 
-        <!-- Можливості софта -->
         <section class="mt-12">
-          <h2 class="font-display font-bold text-2xl md:text-3xl ${s.note ? 'mb-2' : 'mb-6'}">Можливості софта</h2>
+          <h2 class="font-display font-bold text-2xl md:text-3xl ${s.note ? 'mb-2' : 'mb-6'}">${t.features}</h2>
           ${s.note ? `<p class="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-orange"><i class="ti ti-info-circle"></i> ${esc(s.note)}</p>` : ''}
-          ${s.shot ? `<img src="${esc(s.shot)}" alt="${esc(s.name)} — інтерфейс" class="rounded-xl border border-zinc-200 dark:border-zinc-800 mb-6 w-full max-w-2xl mx-auto block">` : ''}
+          ${s.shot ? `<img src="${esc(s.shot)}" alt="${esc(s.name)} ${t.iface}" class="rounded-xl border border-zinc-200 dark:border-zinc-800 mb-6 w-full max-w-2xl mx-auto block">` : ''}
           ${Array.isArray(s.features)
             ? `<div class="grid sm:grid-cols-2 gap-3">${s.features.map(f=>`<div class="feat-shimmer flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-4 py-3.5 transition hover:border-brand-orange hover:bg-brand-orange/5"><span class="relative z-10 grid place-items-center w-7 h-7 rounded-md bg-brand-orange/15 text-brand-orange shrink-0"><i class="ti ti-check text-base"></i></span><span class="relative z-10 text-sm font-medium text-zinc-800 dark:text-zinc-100">${esc(f)}</span></div>`).join('')}</div>`
             : `<div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 md:p-8 text-zinc-600 dark:text-zinc-300 leading-relaxed whitespace-pre-line">${esc(featuresText)}</div>`}
         </section>
 
-        <!-- CTA -->
         <section class="mt-12 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-brand-orange/10 to-transparent p-8 md:p-12 text-center">
-          <h2 class="font-display font-bold text-2xl md:text-3xl">Хочеш цей софт?</h2>
-          <p class="mt-3 text-zinc-500">Напиши в Telegram — розкажу деталі й видам доступ.</p>
+          <h2 class="font-display font-bold text-2xl md:text-3xl">${t.wantTitle}</h2>
+          <p class="mt-3 text-zinc-500">${t.wantDesc}</p>
           <a href="https://t.me/by88_Support" target="_blank" rel="noopener" class="mt-7 inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-semibold text-lg transition">
-            <i class="ti ti-brand-telegram text-xl"></i> Написати в Telegram
+            <i class="ti ti-brand-telegram text-xl"></i> ${t.tgBtn}
           </a>
         </section>
       `;
     }
+
+    function applyLang(lang) {
+      document.documentElement.lang = (lang === 'en' ? 'en' : 'uk');
+      navNodes.forEach(o => { o.n.nodeValue = (lang === 'en' ? o.en : o.uk); });
+      const lt = document.getElementById('langToggle');
+      if (lt) lt.textContent = (lang === 'en' ? 'UA' : 'EN');
+      localStorage.setItem('lang', lang);
+      render(lang);
+    }
+    document.getElementById('langToggle')?.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'uk' : 'en');
+    });
+    applyLang(localStorage.getItem('lang') || 'uk');
   </script>
 </body>
 </html>
