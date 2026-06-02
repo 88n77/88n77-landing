@@ -121,7 +121,7 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':30 };
+    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':20 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
@@ -217,9 +217,21 @@
         about:`<p>June — приватний <strong class="${B}">AI</strong>-агент від <strong class="${B}">Blockchain.com</strong>, одного з найстаріших гравців ринку.</p><p class="mt-4">Blockchain.com залучив <strong class="${O}">$600 млн</strong> інвестицій від <strong class="${B}">Coinbase Ventures</strong>, <strong class="${B}">Lightspeed Venture Partners</strong>, <strong class="${B}">GV (Google Ventures)</strong> та <strong class="${B}">DCG</strong>.</p>`,
       },
       'nous': {
-        name:'Nous', status:'update', tags:['airdrops','Запити'],
+        name:'Nous', status:'working', tags:['airdrops','Запити'],
+        site:'https://portal.nousresearch.com/',
         banner:'assets/img/nous.jpg',
-        features:'Софт оновлюється під новий етап проекту.',
+        features:[
+          'Безперервний фарм Nous Research API',
+          'Підтримка необмеженої кількості API-ключів',
+          'Паралельна робота всіх ключів одночасно',
+          'Підтримка проксі',
+          'Локальний датасет на 50 000 реальних промптів',
+          'Рандомізація промптів і моделей на кожен запит',
+          'Автоперевірка доступних моделей через API',
+          'Рандомна обробка акаунта',
+          'Телеграм сповіщення',
+          'Підтримка оновлення софта протягом усього періоду',
+        ],
         about:`<p>Nous Research — компанія зі <strong class="${B}">штучного інтелекту</strong>, що спеціалізується на <strong class="${B}">open-source</strong> людиноорієнтованих мовних моделях і симуляторах.</p><p class="mt-4">Фокус — на системах ШІ, тісно повʼязаних із реальним користувацьким досвідом: архітектура моделей, синтез даних, точне налаштування та міркування.</p>`,
       },
     };
@@ -295,7 +307,18 @@
         about:`<p>June is a private <strong class="${B}">AI</strong> agent by <strong class="${B}">Blockchain.com</strong>, one of the oldest players on the market.</p><p class="mt-4">Blockchain.com raised <strong class="${O}">$600M</strong> from <strong class="${B}">Coinbase Ventures</strong>, <strong class="${B}">Lightspeed Venture Partners</strong>, <strong class="${B}">GV (Google Ventures)</strong> and <strong class="${B}">DCG</strong>.</p>`,
       },
       'nous': {
-        features:'The software is being updated for the new stage of the project.',
+        features:[
+          'Continuous Nous Research API farming',
+          'Support for unlimited API keys',
+          'All keys run in parallel',
+          'Proxy support',
+          'Local dataset of 50,000 real prompts',
+          'Prompt and model randomization per request',
+          'Automatic check of available models via API',
+          'Randomized account processing',
+          'Telegram notifications',
+          'Free software updates for the whole period',
+        ],
         about:`<p>Nous Research is an <strong class="${B}">artificial intelligence</strong> company specializing in <strong class="${B}">open-source</strong>, human-centric language models and simulators.</p><p class="mt-4">The focus is on AI systems closely tied to real user experience: model architecture, data synthesis, fine-tuning and reasoning.</p>`,
       },
     };
