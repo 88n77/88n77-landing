@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="uk" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>88n77 — Автоматизовані скрипти для ваших проектів</title>
+  <meta name="description" content="Soft та боти, які працюють з вашими акаунтами поки ви відпочиваєте. Можливість замовити бота/софт/скрипт під вашу задачу.">
+
+  <!-- OpenGraph -->
+  <meta property="og:title" content="88n77 — автоматизовані скрипти для ваших проектів">
+  <meta property="og:description" content="Soft та боти, які працюють з вашими акаунтами поки ви відпочиваєте.">
+  <meta property="og:type" content="website">
+
+  <!-- Tailwind (CDN на час розробки; перед деплоєм замінимо на build) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: { brand: { orange: '#FF6B00', orangeDark: '#E55D00' } },
+          fontFamily: {
+            sans: ['Manrope', 'system-ui', 'sans-serif'],
+            display: ['Unbounded', 'system-ui', 'sans-serif'],
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+          },
+          animation: { fadeUp: 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both', float: 'float 6s ease-in-out infinite' },
+        },
+      },
+    };
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tabler Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+
+  <style>
+    html { scroll-behavior: smooth; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; }
+    .reveal.in { animation: fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both; }
+    /* лого: темне → інверт у біле на темній темі */
+    .logo-img { height: 42px; width: auto; }
+    /* фото з капюшоном: розчинення країв, щоб блендилось на світлій і темній */
+    .hoodie {
+      -webkit-mask-image: radial-gradient(ellipse 80% 78% at 52% 46%, #000 50%, transparent 100%);
+      mask-image: radial-gradient(ellipse 80% 78% at 52% 46%, #000 50%, transparent 100%);
+    }
+
+    /* поява фото з блюру (як у друга) */
+    @keyframes photoReveal {
+      from { opacity: 0; filter: blur(18px); transform: scale(1.06); }
+      to   { opacity: 1; filter: blur(0);   transform: scale(1); }
+    }
+    .photo-reveal { animation: photoReveal 2.2s cubic-bezier(0.16,1,0.3,1) both 0.1s; }
+
+    /* liquid glass для стат-карток */
+    .glass {
+      background: rgba(255,255,255,0.55);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(255,255,255,0.55);
+      box-shadow: 0 10px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+    .dark .glass {
+      background: rgba(24,24,27,0.50);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 12px 36px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+
+    /* пункти меню: свічення помаранчевим при наведенні */
+    .nav-link { transition: color .2s ease, text-shadow .2s ease; }
+    .nav-link:hover {
+      color: #FF6B00;
+      text-shadow: 0 0 14px rgba(255,107,0,0.65), 0 0 28px rgba(255,107,0,0.35);
+    }
+
+    /* фільтр-чіпи */
+    .filter-chip { padding:8px 16px; border-radius:0.75rem; font-size:13px; font-weight:600; border:1px solid #d4d4d8; color:#52525b; transition:all .2s; cursor:pointer; }
+    .dark .filter-chip { border-color:#3f3f46; color:#a1a1aa; }
+    .filter-chip:hover { border-color:#FF6B00; color:#FF6B00; }
+    .filter-chip.chip-active { background:#FF6B00; border-color:#FF6B00; color:#fff; }
+
+    /* теги під карткою */
+    .chip-tag { font-size:11px; padding:3px 9px; border-radius:0.5rem; background:rgba(255,107,0,.12); color:#FF6B00; font-weight:600; }
+
+    /* статус-бейдж зі свіченням */
+    .status-badge { font-size:11px; font-weight:700; padding:4px 10px 4px 8px; border-radius:0.5rem; display:inline-flex; align-items:center; gap:6px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+    .status-badge::before { content:''; width:7px; height:7px; border-radius:50%; background:currentColor; box-shadow:0 0 8px currentColor; animation:pulseDot 1.6s ease-in-out infinite; }
+    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(.65)} }
+    .st-working { color:#22c55e; background:rgba(34,197,94,.14); }
+    .st-dev     { color:#f59e0b; background:rgba(245,158,11,.14); }
+    .st-update  { color:#3b82f6; background:rgba(59,130,246,.14); }
+
+    .soft-card { will-change: transform; transition: box-shadow .25s ease, border-color .25s ease; }
+    .soft-card:hover { border-color:#FF6B00 !important; box-shadow: 0 0 0 1px #FF6B00, 0 16px 48px rgba(255,107,0,0.28); }
+
+    /* картки "Як це працює" */
+    #how .how-card { transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
+    #how .how-card:hover { transform: translateY(-6px); border-color:#FF6B00; box-shadow: 0 16px 40px rgba(255,107,0,0.18); }
+    .how-num { transition: text-shadow .25s ease, transform .25s ease; }
+    #how .how-card:hover .how-num { text-shadow: 0 0 22px rgba(255,107,0,0.65); transform: scale(1.04); }
+  </style>
+</head>
+
+<body class="bg-white text-zinc-900 dark:bg-[#0A0A0A] dark:text-zinc-100 font-sans antialiased selection:bg-brand-orange selection:text-white">
+
+  <!-- ================= NAV ================= -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#0A0A0A]/80 border-b border-zinc-200 dark:border-zinc-800">
+    <nav class="max-w-[100rem] mx-auto px-5 md:px-12 h-20 flex items-center justify-between gap-4">
+      <a href="#hero" class="flex items-center shrink-0 font-display font-extrabold text-3xl tracking-tight text-zinc-900 dark:text-white">
+        88n77
+      </a>
+
+      <ul class="hidden lg:flex items-center gap-9 text-[15px] font-medium">
+        <li><a href="#soft" class="nav-link">Софти</a></li>
+        <li><a href="#bots" class="nav-link">Боти</a></li>
+        <li><a href="#order" class="nav-link">Замовити</a></li>
+        <li><a href="#how" class="nav-link">Як це працює</a></li>
+        <li><a href="https://docs.88n77.com.ua" class="nav-link">Docs</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+      </ul>
+
+      <div class="flex items-center gap-2">
+        <button id="langToggle" aria-label="Мова / Language"
+          class="h-10 px-3 grid place-items-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition text-sm font-bold">EN</button>
+        <button id="themeToggle" aria-label="Перемкнути тему"
+          class="w-10 h-10 grid place-items-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+          <i class="ti ti-sun text-xl hidden dark:block"></i>
+          <i class="ti ti-moon text-xl block dark:hidden"></i>
+        </button>
+        <a href="https://t.me/by88_Support" target="_blank" rel="noopener"
+          class="hidden sm:inline-flex items-center gap-2 h-10 px-4 rounded-lg bg-brand-orange hover:bg-brand-orangeDark text-white font-semibold text-sm transition">
+          <i class="ti ti-brand-telegram text-lg"></i> Telegram
+        </a>
+        <button id="burger" aria-label="Меню"
+          class="lg:hidden w-10 h-10 grid place-items-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+          <i class="ti ti-menu-2 text-xl"></i>
+        </button>
+      </div>
+    </nav>
+
+    <div id="mobileNav" class="lg:hidden hidden border-t border-zinc-200 dark:border-zinc-800 px-5 py-4 flex-col gap-3 text-sm">
+      <a href="#soft" class="py-1">Софти</a>
+      <a href="#bots" class="py-1">Боти</a>
+      <a href="#order" class="py-1">Замовити</a>
+      <a href="#how" class="py-1">Як це працює</a>
+      <a href="https://docs.88n77.com.ua" class="py-1">Docs</a>
+      <a href="#faq" class="py-1">FAQ</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= HERO ================= -->
+    <section id="hero" class="relative overflow-hidden flex items-center">
+      <!-- Велике фото з капюшоном (права половина) -->
+      <div class="pointer-events-none absolute inset-y-0 right-0 w-full md:w-[62%] z-0 photo-reveal">
+        <img src="assets/img/hoodie.png" alt="88n77" class="block dark:hidden absolute inset-0 h-full w-full object-cover object-center">
+        <img src="assets/img/hoodie-dark.jpg" alt="88n77" class="hidden dark:block absolute inset-0 h-full w-full object-cover object-center">
+        <!-- лівий фейд у фон сторінки (блендить на світлій і темній) -->
+        <div class="absolute inset-0 bg-gradient-to-r from-white dark:from-[#0A0A0A] via-white/40 dark:via-[#0A0A0A]/40 to-transparent"></div>
+        <!-- легке затемнення низу для глибини -->
+        <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white dark:from-[#0A0A0A] to-transparent"></div>
+      </div>
+      <!-- помаранчевий glow -->
+      <div class="pointer-events-none absolute -top-40 -right-20 w-[500px] h-[500px] rounded-full bg-brand-orange/20 blur-[120px] z-0"></div>
+
+      <div class="relative z-10 w-full max-w-[100rem] mx-auto px-5 md:px-12 py-16 md:py-20 grid md:grid-cols-12 gap-10 items-center">
+        <!-- Текст -->
+        <div class="md:col-span-6 md:-translate-y-[50px]">
+          <span class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-brand-orange mb-5">
+            <span class="w-2 h-2 rounded-full bg-brand-orange animate-pulse"></span> soft · bots · scripts
+          </span>
+          <h1 class="font-display font-extrabold text-5xl md:text-6xl leading-[1.08] tracking-tight">
+            Автоматизація<br><span class="text-brand-orange">не має меж</span>
+          </h1>
+          <p class="mt-12 md:mt-16 text-zinc-600 dark:text-zinc-300 text-base md:text-lg max-w-md leading-relaxed">
+            Авторські скрипти, софти та боти, які працюють з вашими акаунтами поки ви відпочиваєте.
+            <span class="block mt-3 text-zinc-600 dark:text-zinc-400">Є можливість зробити на замовлення: бота / софт / скрипт під вашу задачу або проект</span>
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#soft" class="inline-flex items-center justify-center h-14 px-8 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-semibold transition">
+              Переглянути софти
+            </a>
+            <a href="#order" class="inline-flex items-center justify-center h-14 px-8 rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white/60 dark:bg-black/30 backdrop-blur hover:border-brand-orange hover:text-brand-orange font-semibold transition">
+              Замовити
+            </a>
+          </div>
+        </div>
+
+        <!-- Статистика у шаховому порядку -->
+        <div class="md:col-span-6">
+          <div class="grid grid-cols-2 gap-4 max-w-sm">
+            <!-- ліва колонка -->
+            <div class="flex flex-col gap-4">
+              <div class="glass rounded-xl p-6">
+                <div class="stat font-display text-4xl font-extrabold text-brand-orange" data-target="10" data-suffix="+">0+</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">підтримуваних проектів</div>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <div class="stat font-display text-4xl font-extrabold text-brand-orange" data-target="100" data-suffix="+">0+</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">автоматичних сценаріїв</div>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <div class="stat font-display text-4xl font-extrabold text-brand-orange" data-target="99" data-suffix="%">0%</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">безпека</div>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <div class="font-display text-4xl font-extrabold text-brand-orange">x10</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">економія часу</div>
+              </div>
+            </div>
+            <!-- права колонка (зміщена вниз) -->
+            <div class="flex flex-col gap-4 mt-10">
+              <div class="glass rounded-xl p-6">
+                <div class="stat font-display text-4xl font-extrabold text-brand-orange" data-target="100" data-suffix="%">0%</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">повна імітація дій людини</div>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <div class="font-display text-4xl font-extrabold text-brand-orange">1 клік</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">для масового запуску</div>
+              </div>
+              <div class="glass rounded-xl p-6">
+                <div class="font-display text-4xl font-extrabold text-brand-orange">24/7</div>
+                <div class="mt-1 text-sm text-zinc-500 dark:text-zinc-400">робота без зупинок</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= СОФТИ ================= -->
+    <section id="soft" class="max-w-7xl mx-auto px-5 md:px-8 py-20 reveal">
+      <div class="mb-10">
+        <h2 class="font-display font-bold text-3xl md:text-4xl">Софти</h2>
+        <p class="mt-3 text-zinc-500 max-w-xl">Доступно <span id="softCount" class="text-brand-orange font-semibold">7</span> <span id="softWord">софтів</span></p>
+      </div>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Панель фільтрів -->
+        <aside class="lg:w-64 shrink-0">
+          <div class="lg:sticky lg:top-24 glass rounded-xl p-6 space-y-6">
+            <div>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Вид</h4>
+              <div class="flex flex-wrap gap-2">
+                <button class="filter-chip" data-group="vid" data-value="airdrops">Airdrops</button>
+                <button class="filter-chip" data-group="vid" data-value="testnet">Testnet</button>
+                <button class="filter-chip" data-group="vid" data-value="mainnet">Mainnet</button>
+              </div>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">Тип</h4>
+              <div class="flex flex-wrap gap-2">
+                <button class="filter-chip" data-group="type" data-value="ui">UI</button>
+                <button class="filter-chip" data-group="type" data-value="requests">Запити</button>
+              </div>
+            </div>
+            <button id="filterReset" class="text-sm font-semibold text-zinc-500 hover:text-brand-orange transition inline-flex items-center gap-1">
+              <i class="ti ti-rotate-2"></i> Скинути фільтр
+            </button>
+          </div>
+        </aside>
+
+        <!-- Сітка софтів -->
+        <div id="softGrid" class="grid sm:grid-cols-2 gap-6 flex-1 content-start">
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="testnet" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/dac-chain.jpg" alt="Dac Chain" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">Dac Chain</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">testnet</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="testnet" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/litvm.jpg" alt="LitVM" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-update absolute top-3 left-3">Updating</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">LitVM</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">testnet</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="testnet" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/integra.jpg" alt="Integra" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">Integra</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">testnet</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="airdrops" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/prismax.jpg" alt="PrismaX" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">PrismaX</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">airdrops</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="airdrops" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/simple.jpg" alt="SimpleChain" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">SimpleChain</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">airdrops</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="airdrops" data-type="ui">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/june.jpg" alt="June" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-update absolute top-3 left-3">Updating</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">June</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">airdrops</span><span class="chip-tag">UI</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="airdrops" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/nous.jpg" alt="Nous" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-update absolute top-3 left-3">Updating</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">Nous</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">airdrops</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= БОТИ ================= -->
+    <section id="bots" class="bg-zinc-50 dark:bg-zinc-900/40 border-y border-zinc-200 dark:border-zinc-800">
+      <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 reveal">
+        <div class="mb-12">
+          <h2 class="font-display font-bold text-3xl md:text-4xl">Боти</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <article class="group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 hover:border-brand-orange transition">
+            <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange grid place-items-center mb-4"><i class="ti ti-robot text-2xl"></i></div>
+            <h3 class="font-semibold text-lg">Soon</h3>
+            <p class="mt-2 text-sm text-zinc-500">Soon</p>
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-display font-bold text-brand-orange">$</span>
+              <a href="https://t.me/by88_Support" target="_blank" rel="noopener" class="text-sm font-semibold inline-flex items-center gap-1 group-hover:text-brand-orange transition">Детальніше <i class="ti ti-arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 hover:border-brand-orange transition">
+            <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange grid place-items-center mb-4"><i class="ti ti-robot text-2xl"></i></div>
+            <h3 class="font-semibold text-lg">Soon</h3>
+            <p class="mt-2 text-sm text-zinc-500">Soon</p>
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-display font-bold text-brand-orange">$</span>
+              <a href="https://t.me/by88_Support" target="_blank" rel="noopener" class="text-sm font-semibold inline-flex items-center gap-1 group-hover:text-brand-orange transition">Детальніше <i class="ti ti-arrow-right"></i></a>
+            </div>
+          </article>
+          <article class="group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 hover:border-brand-orange transition">
+            <div class="w-12 h-12 rounded-xl bg-brand-orange/10 text-brand-orange grid place-items-center mb-4"><i class="ti ti-robot text-2xl"></i></div>
+            <h3 class="font-semibold text-lg">Soon</h3>
+            <p class="mt-2 text-sm text-zinc-500">Soon</p>
+            <div class="mt-5 flex items-center justify-between">
+              <span class="font-display font-bold text-brand-orange">$</span>
+              <a href="https://t.me/by88_Support" target="_blank" rel="noopener" class="text-sm font-semibold inline-flex items-center gap-1 group-hover:text-brand-orange transition">Детальніше <i class="ti ti-arrow-right"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ЗАМОВИТИ ================= -->
+    <section id="order" class="max-w-7xl mx-auto px-5 md:px-8 py-20 reveal">
+      <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-gradient-to-br from-brand-orange/10 to-transparent p-10 md:p-16 text-center relative overflow-hidden">
+        <div class="pointer-events-none absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-brand-orange/20 blur-[100px]"></div>
+        <div class="relative">
+          <div class="w-14 h-14 mx-auto rounded-xl bg-brand-orange/15 text-brand-orange grid place-items-center mb-6"><i class="ti ti-wand text-3xl"></i></div>
+          <h2 class="font-display font-bold text-3xl md:text-4xl">Замовити під свою задачу</h2>
+          <p class="mt-4 text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto">
+            Потрібен бот, софт чи скрипт під конкретний проект? Напиши задачу — зроблю рішення під тебе.
+          </p>
+          <a href="https://t.me/by88_Support" target="_blank" rel="noopener"
+            class="mt-8 inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-semibold text-lg transition">
+            <i class="ti ti-brand-telegram text-xl"></i> Обговорити замовлення
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= ЯК ЦЕ ПРАЦЮЄ ================= -->
+    <section id="how" class="bg-zinc-50 dark:bg-zinc-900/40 border-y border-zinc-200 dark:border-zinc-800">
+      <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 reveal">
+        <div class="mb-12">
+          <h2 class="font-display font-bold text-3xl md:text-4xl">Як це працює</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 how-card">
+            <div class="how-num font-display text-5xl font-extrabold text-brand-orange">01</div>
+            <h3 class="font-semibold mt-3">Обираєш софт</h3>
+            <p class="text-sm text-zinc-500 mt-2">Готовий продукт або замовлення під задачу.</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 how-card">
+            <div class="how-num font-display text-5xl font-extrabold text-brand-orange">02</div>
+            <h3 class="font-semibold mt-3">Налаштовуєш</h3>
+            <p class="text-sm text-zinc-500 mt-2">Акаунти, проксі, параметри — за мануалом у Docs.</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 how-card">
+            <div class="how-num font-display text-5xl font-extrabold text-brand-orange">03</div>
+            <h3 class="font-semibold mt-3">Запускаєш</h3>
+            <p class="text-sm text-zinc-500 mt-2">Софт працює сам, поки ти відпочиваєш.</p>
+          </div>
+          <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#0A0A0A] p-6 how-card">
+            <div class="how-num font-display text-5xl font-extrabold text-brand-orange">04</div>
+            <h3 class="font-semibold mt-3">Результат</h3>
+            <p class="text-sm text-zinc-500 mt-2">Акаунти готові під дропи / задачу.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= FAQ ================= -->
+    <section id="faq" class="max-w-3xl mx-auto px-5 md:px-8 py-20 reveal">
+      <h2 class="font-display font-bold text-3xl md:text-4xl mb-10">FAQ</h2>
+      <div class="space-y-3">
+        <details class="group rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold list-none">Чи є ризик бану акаунтів (Sybil-мітки) при використанні твоїх софтів?<i class="ti ti-chevron-down group-open:rotate-180 transition shrink-0"></i></summary>
+          <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Я закладаю максимальний антифрод-захист: рандомізацію дій, унікальні затримки (sleeps), підтримку індивідуальних проксі та повну імітацію поведінки людини. Якщо дотримуєшся моїх рекомендацій із мануалів (не перетинаєш гаманці, використовуєш якісні проксі) — ризик зводиться до мінімуму.</p>
+        </details>
+        <details class="group rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold list-none">Чи потрібні навички програмування для налаштування бота?<i class="ti ti-chevron-down group-open:rotate-180 transition shrink-0"></i></summary>
+          <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Абсолютно ні. Весь код уже написаний і протестований. Тобі потрібно лише відкрити конфіг-файл, вставити свої приватники / API / проксі за готовим шаблоном і запустити. До кожного продукту йде покрокова інструкція в розділі Docs.</p>
+        </details>
+        <details class="group rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold list-none">Що робити, якщо проєкт оновив сайт / контракт і бот перестав працювати?<i class="ti ti-chevron-down group-open:rotate-180 transition shrink-0"></i></summary>
+          <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Я постійно моніторю працездатність софту. Якщо проєкт вносить зміни — оперативно випускаю патч. Усі оновлення в межах твоєї підписки чи ліцензії безкоштовні та швидко публікуються в моєму Telegram-каналі.</p>
+        </details>
+        <details class="group rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold list-none">На яких ОС можна запускати скрипти?<i class="ti ti-chevron-down group-open:rotate-180 transition shrink-0"></i></summary>
+          <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Більшість моїх рішень кросплатформні — працюють на Windows, macOS і Linux. Для масштабних ферм раджу віддалені сервери (VPS) на базі Ubuntu для безперебійної роботи 24/7.</p>
+        </details>
+        <details class="group rounded-xl border border-zinc-200 dark:border-zinc-800 p-5">
+          <summary class="flex items-center justify-between gap-4 cursor-pointer font-semibold list-none">Мені потрібен софт під специфічний проєкт, якого немає в каталозі. Робиш на замовлення?<i class="ti ti-chevron-down group-open:rotate-180 transition shrink-0"></i></summary>
+          <p class="mt-3 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Так, я роблю кастомну розробку ботів, скриптів та автоматизації будь-якої складності. Напиши в Telegram, коротко опиши задачу (ТЗ) — і обговоримо терміни та вартість реалізації.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
+    <section class="max-w-7xl mx-auto px-5 md:px-8 pb-24 text-center reveal">
+      <h2 class="font-display font-extrabold text-3xl md:text-5xl">Готовий почати?</h2>
+      <p class="mt-4 text-zinc-500 max-w-md mx-auto">Напиши в Telegram — підкажемо, який софт під твої задачі.</p>
+      <a href="https://t.me/by88_Support" target="_blank" rel="noopener"
+        class="mt-8 inline-flex items-center gap-2 h-14 px-10 rounded-xl bg-brand-orange hover:bg-brand-orangeDark text-white font-semibold text-lg transition">
+        <i class="ti ti-brand-telegram text-xl"></i> Написати в Telegram
+      </a>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
+      <span class="font-display font-extrabold text-xl tracking-tight text-zinc-900 dark:text-white">88n77</span>
+      <div class="flex items-center gap-4">
+        <a href="https://t.me/by88_Support" target="_blank" rel="noopener" class="nav-link"><i class="ti ti-brand-telegram text-lg"></i></a>
+        <a href="#" class="nav-link"><i class="ti ti-brand-x text-lg"></i></a>
+        <span>© 2026 88n77</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===== Theme =====
+    const root = document.documentElement;
+    const saved = localStorage.getItem('theme');
+    if (saved === 'light') root.classList.remove('dark');
+    if (saved === 'dark') root.classList.add('dark');
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      root.classList.toggle('dark');
+      localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // ===== Mobile nav =====
+    const burger = document.getElementById('burger');
+    const mobileNav = document.getElementById('mobileNav');
+    burger.addEventListener('click', () => {
+      mobileNav.classList.toggle('hidden');
+      mobileNav.classList.toggle('flex');
+    });
+    mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileNav.classList.add('hidden'); mobileNav.classList.remove('flex');
+    }));
+
+    // ===== Count-up =====
+    function countUp(el) {
+      const target = +el.dataset.target, suffix = el.dataset.suffix || '', dur = 1600, t0 = performance.now();
+      (function tick(now) {
+        const p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(e * target) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+    }
+
+    // ===== Reveal on scroll + stats =====
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add('in');
+        if (en.target.matches('.stat[data-target]')) countUp(en.target);
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    document.querySelectorAll('.stat[data-target]').forEach(el => io.observe(el));
+
+    // ===== Фільтр софтів (FLIP-анімація) =====
+    (function () {
+      const grid = document.getElementById('softGrid');
+      if (!grid) return;
+      const cards = [...grid.querySelectorAll('.soft-card')];
+      const chips = [...document.querySelectorAll('.filter-chip')];
+      const active = { vid: new Set(), type: new Set() };
+
+      const matches = (c) =>
+        (active.vid.size === 0 || active.vid.has(c.dataset.vid)) &&
+        (active.type.size === 0 || active.type.has(c.dataset.type));
+
+      const plural = (n) => {
+        const a = n % 100, b = n % 10;
+        if (a > 10 && a < 20) return 'софтів';
+        if (b === 1) return 'софт';
+        if (b >= 2 && b <= 4) return 'софти';
+        return 'софтів';
+      };
+      const updateCount = (n) => {
+        const c = document.getElementById('softCount'), w = document.getElementById('softWord');
+        if (c) c.textContent = n;
+        if (w) w.textContent = (document.documentElement.lang === 'en') ? 'soft' : plural(n);
+      };
+
+      function apply() {
+        // First — позиції видимих карток до зміни
+        const first = new Map();
+        cards.forEach(c => { if (c.style.display !== 'none') first.set(c, c.getBoundingClientRect()); });
+
+        // Зміна видимості
+        cards.forEach(c => { c.style.display = matches(c) ? '' : 'none'; });
+
+        // Лічильник
+        updateCount(cards.filter(c => c.style.display !== 'none').length);
+
+        // Last + Invert + Play
+        cards.forEach(c => {
+          if (c.style.display === 'none') return;
+          const last = c.getBoundingClientRect();
+          const f = first.get(c);
+          if (f) {
+            const dx = f.left - last.left, dy = f.top - last.top;
+            if (dx || dy) {
+              c.style.transition = 'none';
+              c.style.transform = `translate(${dx}px,${dy}px)`;
+              requestAnimationFrame(() => {
+                c.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1)';
+                c.style.transform = '';
+              });
+            }
+          } else {
+            // нова картка з'являється
+            c.style.transition = 'none';
+            c.style.opacity = '0';
+            c.style.transform = 'scale(.92)';
+            requestAnimationFrame(() => {
+              c.style.transition = 'opacity .45s ease, transform .45s ease';
+              c.style.opacity = '';
+              c.style.transform = '';
+            });
+          }
+        });
+      }
+
+      chips.forEach(chip => chip.addEventListener('click', () => {
+        const g = chip.dataset.group, v = chip.dataset.value;
+        if (active[g].has(v)) { active[g].delete(v); chip.classList.remove('chip-active'); }
+        else { active[g].add(v); chip.classList.add('chip-active'); }
+        apply();
+      }));
+
+      // платформи по софту (дефолт — Windows/macOS/Linux) + ціни
+      const OS_ICON = { windows:['ti-brand-windows','Windows'], mac:['ti-brand-apple','macOS'], linux:['ti-brand-ubuntu','Linux'], android:['ti-brand-android','Android'], web:['ti-world','Web'] };
+      const OS_BY_SLUG = { 'june':['windows','mac'] };
+      const PRICE_BY_SLUG = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':30 };
+
+      // клік по картці → сторінка софта + рядок ОС/ціна
+      cards.forEach(c => {
+        c.style.cursor = 'pointer';
+        const slug = (c.querySelector('h3')?.textContent || '').trim().toLowerCase().replace(/\s+/g, '-');
+        c.addEventListener('click', () => { if (slug) location.href = 'soft.html?id=' + encodeURIComponent(slug); });
+        const body = c.querySelector('.p-5');
+        if (body && !body.querySelector('.os-row')) {
+          const oses = OS_BY_SLUG[slug] || ['windows','mac','linux'];
+          const price = PRICE_BY_SLUG[slug];
+          const row = document.createElement('div');
+          row.className = 'os-row mt-4 flex items-center justify-between';
+          row.innerHTML =
+            `<div class="flex items-center gap-2.5 text-zinc-400 dark:text-zinc-500">${oses.map(o => { const d = OS_ICON[o]; return `<i class="ti ${d[0]} text-base" title="${d[1]}"></i>`; }).join('')}</div>` +
+            (price != null ? `<span class="font-display font-extrabold text-brand-orange text-lg">$${price}</span>` : '');
+          body.appendChild(row);
+        }
+      });
+
+      const reset = document.getElementById('filterReset');
+      if (reset) reset.addEventListener('click', () => {
+        active.vid.clear(); active.type.clear();
+        chips.forEach(c => c.classList.remove('chip-active'));
+        apply();
+      });
+
+      window.addEventListener('langchange', () => updateCount(cards.filter(c => c.style.display !== 'none').length));
+    })();
+
+    // ===== i18n (UA / EN) =====
+    const I18N = {
+      "Софти":"Soft",
+      "Боти":"Bots",
+      "Замовити":"Order",
+      "Як це працює":"How it works",
+      "Автоматизація":"Automation",
+      "не має меж":"has no limits",
+      "Авторські скрипти, софти та боти, які працюють з вашими акаунтами поки ви відпочиваєте.":"Custom scripts, soft and bots that work with your accounts while you rest.",
+      "Є можливість зробити на замовлення: бота / софт / скрипт під вашу задачу або проект":"Custom builds available: a bot / soft / script for your task or project",
+      "Переглянути софти":"View soft",
+      "підтримуваних проектів":"supported projects",
+      "автоматичних сценаріїв":"automated scenarios",
+      "безпека":"security",
+      "економія часу":"time saved",
+      "повна імітація дій людини":"full human behavior emulation",
+      "1 клік":"1 click",
+      "для масового запуску":"for mass launch",
+      "робота без зупинок":"non-stop operation",
+      "Доступно":"Available",
+      "Вид":"Category",
+      "Тип":"Type",
+      "Запити":"Requests",
+      "Скинути фільтр":"Reset filter",
+      "Детальніше":"Details",
+      "Замовити під свою задачу":"Order for your task",
+      "Потрібен бот, софт чи скрипт під конкретний проект? Напиши задачу — зроблю рішення під тебе.":"Need a bot, soft or script for a specific project? Describe the task — I'll build a solution for you.",
+      "Обговорити замовлення":"Discuss an order",
+      "Обираєш софт":"Choose soft",
+      "Готовий продукт або замовлення під задачу.":"A ready product or a custom order.",
+      "Налаштовуєш":"Set up",
+      "Акаунти, проксі, параметри — за мануалом у Docs.":"Accounts, proxies, parameters — per the manual in Docs.",
+      "Запускаєш":"Run",
+      "Софт працює сам, поки ти відпочиваєш.":"The soft runs by itself while you rest.",
+      "Результат":"Result",
+      "Акаунти готові під дропи / задачу.":"Accounts ready for drops / your task.",
+      "Чи є ризик бану акаунтів (Sybil-мітки) при використанні твоїх софтів?":"Is there a risk of account bans (Sybil flags) when using your soft?",
+      "Я закладаю максимальний антифрод-захист: рандомізацію дій, унікальні затримки (sleeps), підтримку індивідуальних проксі та повну імітацію поведінки людини. Якщо дотримуєшся моїх рекомендацій із мануалів (не перетинаєш гаманці, використовуєш якісні проксі) — ризик зводиться до мінімуму.":"I build in maximum anti-fraud protection: randomized actions, unique sleeps, support for individual proxies and full human-behavior emulation. If you follow my manual recommendations (don't cross wallets, use quality proxies) — the risk is minimized.",
+      "Чи потрібні навички програмування для налаштування бота?":"Do I need programming skills to set up a bot?",
+      "Абсолютно ні. Весь код уже написаний і протестований. Тобі потрібно лише відкрити конфіг-файл, вставити свої приватники / API / проксі за готовим шаблоном і запустити. До кожного продукту йде покрокова інструкція в розділі Docs.":"Absolutely not. All the code is already written and tested. You just open the config file, paste your private keys / API / proxies into the ready template and run it. Every product comes with a step-by-step guide in the Docs section.",
+      "Що робити, якщо проєкт оновив сайт / контракт і бот перестав працювати?":"What if the project updates its site / contract and the bot stops working?",
+      "Я постійно моніторю працездатність софту. Якщо проєкт вносить зміни — оперативно випускаю патч. Усі оновлення в межах твоєї підписки чи ліцензії безкоштовні та швидко публікуються в моєму Telegram-каналі.":"I constantly monitor the soft's health. If the project makes changes — I promptly release a patch. All updates within your subscription or license are free and quickly published in my Telegram channel.",
+      "На яких ОС можна запускати скрипти?":"Which OS can run the scripts?",
+      "Більшість моїх рішень кросплатформні — працюють на Windows, macOS і Linux. Для масштабних ферм раджу віддалені сервери (VPS) на базі Ubuntu для безперебійної роботи 24/7.":"Most of my solutions are cross-platform — they run on Windows, macOS and Linux. For large farms I recommend remote servers (VPS) on Ubuntu for non-stop 24/7 operation.",
+      "Мені потрібен софт під специфічний проєкт, якого немає в каталозі. Робиш на замовлення?":"I need soft for a specific project that's not in the catalog. Do you do custom orders?",
+      "Так, я роблю кастомну розробку ботів, скриптів та автоматизації будь-якої складності. Напиши в Telegram, коротко опиши задачу (ТЗ) — і обговоримо терміни та вартість реалізації.":"Yes, I do custom development of bots, scripts and automation of any complexity. Message me on Telegram, briefly describe the task (spec) — and we'll discuss the timeline and cost.",
+      "Готовий почати?":"Ready to start?",
+      "Напиши в Telegram — підкажемо, який софт під твої задачі.":"Message me on Telegram — I'll suggest the right soft for your tasks.",
+      "Написати в Telegram":"Message on Telegram"
+    };
+    const i18nNodes = [];
+    (function snapshot(){
+      const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      let n;
+      while (n = w.nextNode()) {
+        const p = n.parentElement;
+        if (!p || p.tagName === 'SCRIPT' || p.tagName === 'STYLE') continue;
+        const tr = n.nodeValue.trim();
+        if (tr && I18N[tr]) i18nNodes.push({ n, uk: n.nodeValue, en: n.nodeValue.replace(tr, I18N[tr]) });
+      }
+    })();
+    function applyLang(l) {
+      document.documentElement.lang = (l === 'en' ? 'en' : 'uk');
+      i18nNodes.forEach(o => { o.n.nodeValue = (l === 'en' ? o.en : o.uk); });
+      const lt = document.getElementById('langToggle');
+      if (lt) lt.textContent = (l === 'en' ? 'UA' : 'EN');
+      localStorage.setItem('lang', l);
+      window.dispatchEvent(new Event('langchange'));
+    }
+    document.getElementById('langToggle')?.addEventListener('click', () => {
+      applyLang(document.documentElement.lang === 'en' ? 'uk' : 'en');
+    });
+    applyLang(localStorage.getItem('lang') || 'uk');
+  </script>
+</body>
+</html>
