@@ -121,7 +121,7 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':20 };
+    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':'Free', 'simplechain':10, 'june':30, 'nous':20 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
@@ -402,7 +402,7 @@
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4 flex-wrap">
               <h1 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight">${esc(s.name)}</h1>
-              ${PRICE[id] != null ? `<span class="font-display font-extrabold text-3xl text-brand-orange">$${PRICE[id]}</span>` : ''}
+              ${PRICE[id] != null ? `<span class="font-display font-extrabold text-3xl text-brand-orange">${typeof PRICE[id] === 'number' ? '$' + PRICE[id] : PRICE[id]}</span>` : ''}
             </div>
             <div class="flex flex-wrap gap-2">${s.tags.map(x=>`<span class="chip-tag">${esc(x)}</span>`).join('')}</div>
           </div>

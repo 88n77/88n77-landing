@@ -612,7 +612,7 @@
       // платформи по софту (дефолт — Windows/macOS/Linux) + ціни
       const OS_ICON = { windows:['ti-brand-windows','Windows'], mac:['ti-brand-apple','macOS'], linux:['ti-brand-ubuntu','Linux'], android:['ti-brand-android','Android'], web:['ti-world','Web'] };
       const OS_BY_SLUG = { 'june':['windows','mac'] };
-      const PRICE_BY_SLUG = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':10, 'simplechain':10, 'june':30, 'nous':20 };
+      const PRICE_BY_SLUG = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':'Free', 'simplechain':10, 'june':30, 'nous':20 };
 
       // клік по картці → сторінка софта + рядок ОС/ціна
       cards.forEach(c => {
@@ -627,7 +627,7 @@
           row.className = 'os-row mt-4 flex items-center justify-between';
           row.innerHTML =
             `<div class="flex items-center gap-2.5 text-zinc-400 dark:text-zinc-500">${oses.map(o => { const d = OS_ICON[o]; return `<i class="ti ${d[0]} text-base" title="${d[1]}"></i>`; }).join('')}</div>` +
-            (price != null ? `<span class="font-display font-extrabold text-brand-orange text-lg">$${price}</span>` : '');
+            (price != null ? `<span class="font-display font-extrabold text-brand-orange text-lg">${typeof price === 'number' ? '$' + price : price}</span>` : '');
           body.appendChild(row);
         }
       });
