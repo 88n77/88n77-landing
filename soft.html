@@ -121,7 +121,7 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':'Free', 'simplechain':10, 'june':30, 'nous':20 };
+    const PRICE = { 'dac-chain':30, 'litvm':50, 'integra':30, 'prismax':'Free', 'simplechain':'Free', 'june':30, 'nous':20 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
@@ -132,6 +132,7 @@
         site:'https://inception.dachain.io/?ref=DAC4239377',
         banner:'assets/img/dac-chain.jpg',
         shot:'assets/img/dac-chain-menu.png',
+        video:'assets/video/dac-chain.mp4',
         features:[
           'Підтримка однозадачності або full work',
           'Режим запуску: "single" — по черзі, "multi" — всі одночасно',
@@ -424,7 +425,9 @@
         <section class="mt-12">
           <h2 class="font-display font-bold text-2xl md:text-3xl ${s.note ? 'mb-2' : 'mb-6'}">${t.features}</h2>
           ${s.note ? `<p class="mb-6 inline-flex items-center gap-2 text-sm font-semibold text-brand-orange"><i class="ti ti-info-circle"></i> ${esc(s.note)}</p>` : ''}
-          ${s.shot ? `<img src="${esc(s.shot)}" alt="${esc(s.name)} ${t.iface}" class="rounded-xl border border-zinc-200 dark:border-zinc-800 mb-6 w-full max-w-2xl mx-auto block">` : ''}
+          ${s.video
+            ? `<video src="${esc(s.video)}" autoplay muted loop playsinline preload="metadata" poster="${esc(s.banner)}" class="rounded-xl border border-zinc-200 dark:border-zinc-800 mb-6 w-full max-w-2xl mx-auto block"></video>`
+            : s.shot ? `<img src="${esc(s.shot)}" alt="${esc(s.name)} ${t.iface}" class="rounded-xl border border-zinc-200 dark:border-zinc-800 mb-6 w-full max-w-2xl mx-auto block">` : ''}
           ${Array.isArray(s.features)
             ? `<div class="grid sm:grid-cols-2 gap-3">${s.features.map(f=>`<div class="feat-shimmer flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 px-4 py-3.5 transition hover:border-brand-orange hover:bg-brand-orange/5"><span class="relative z-10 grid place-items-center w-7 h-7 rounded-md bg-brand-orange/15 text-brand-orange shrink-0"><i class="ti ti-check text-base"></i></span><span class="relative z-10 text-sm font-medium text-zinc-800 dark:text-zinc-100">${esc(f)}</span></div>`).join('')}</div>`
             : `<div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-6 md:p-8 text-zinc-600 dark:text-zinc-300 leading-relaxed whitespace-pre-line">${esc(featuresText)}</div>`}
