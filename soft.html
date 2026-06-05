@@ -360,8 +360,8 @@
 
     // ===== UI-підписи =====
     const L = {
-      uk: { allSoft:'Усі софти', supported:'Підтримується:', site:'Сайт проекту', about:'Про проект', features:'Можливості софта', iface:'— інтерфейс', wantTitle:'Хочеш цей софт?', wantDesc:'Напиши в Telegram — розкажу деталі й видам доступ.', tgBtn:'Написати в Telegram', notFound:'Софт не знайдено', backList:'До списку софтів' },
-      en: { allSoft:'All soft', supported:'Supported:', site:'Project site', about:'About the project', features:'Soft features', iface:'— interface', wantTitle:'Want this soft?', wantDesc:"Message me on Telegram — I'll share the details and grant access.", tgBtn:'Message on Telegram', notFound:'Soft not found', backList:'Back to soft list' },
+      uk: { allSoft:'Усі софти', supported:'Підтримується:', site:'Сайт проекту', about:'Про проект', features:'Можливості софта', iface:'— інтерфейс', wantTitle:'Хочеш цей софт?', wantDesc:'Напиши в Telegram — розкажу деталі й видам доступ.', tgBtn:'Написати в Telegram', notFound:'Софт не знайдено', backList:'До списку софтів', lifetime:'назавжди' },
+      en: { allSoft:'All soft', supported:'Supported:', site:'Project site', about:'About the project', features:'Soft features', iface:'— interface', wantTitle:'Want this soft?', wantDesc:"Message me on Telegram — I'll share the details and grant access.", tgBtn:'Message on Telegram', notFound:'Soft not found', backList:'Back to soft list', lifetime:'lifetime' },
     };
 
     // ===== Переклад навбару/футера =====
@@ -405,7 +405,7 @@
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center gap-4 flex-wrap">
               <h1 class="font-display font-extrabold text-4xl md:text-5xl tracking-tight">${esc(s.name)}</h1>
-              ${PRICE[id] != null ? `<span class="font-display font-extrabold text-3xl text-brand-orange">${typeof PRICE[id] === 'number' ? '$' + PRICE[id] : PRICE[id]}</span>` : ''}
+              ${PRICE[id] != null ? `<span class="inline-flex items-baseline gap-1.5"><span class="font-display font-extrabold text-3xl text-brand-orange">${typeof PRICE[id] === 'number' ? '$' + PRICE[id] : PRICE[id]}</span><span class="text-xs font-semibold uppercase tracking-wide text-zinc-400">${t.lifetime}</span></span>` : ''}
             </div>
             <div class="flex flex-wrap gap-2">${s.tags.map(x=>`<span class="chip-tag">${esc(x)}</span>`).join('')}</div>
           </div>

@@ -627,7 +627,7 @@
           row.className = 'os-row mt-4 flex items-center justify-between';
           row.innerHTML =
             `<div class="flex items-center gap-2.5 text-zinc-400 dark:text-zinc-500">${oses.map(o => { const d = OS_ICON[o]; return `<i class="ti ${d[0]} text-base" title="${d[1]}"></i>`; }).join('')}</div>` +
-            (price != null ? `<span class="font-display font-extrabold text-brand-orange text-lg">${typeof price === 'number' ? '$' + price : price}</span>` : '');
+            (price != null ? `<span class="inline-flex items-baseline gap-1.5"><span class="font-display font-extrabold text-brand-orange text-lg">${typeof price === 'number' ? '$' + price : price}</span><span class="text-[11px] font-semibold uppercase tracking-wide text-zinc-400">назавжди</span></span>` : '');
           body.appendChild(row);
         }
       });
@@ -667,6 +667,7 @@
       "Запити":"Requests",
       "Скинути фільтр":"Reset filter",
       "Детальніше":"Details",
+      "назавжди":"lifetime",
       "Бот для масового спілкування в Discord каналах":"A bot for mass communication in Discord channels",
       "Замовити під свою задачу":"Order for your task",
       "Потрібен бот, софт чи скрипт під конкретний проект? Напиши задачу — зроблю рішення під тебе.":"Need a bot, soft or script for a specific project? Describe the task — I'll build a solution for you.",
