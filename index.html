@@ -244,7 +244,7 @@
     <section id="soft" class="max-w-7xl mx-auto px-5 md:px-8 py-20 reveal">
       <div class="mb-10">
         <h2 class="font-display font-bold text-3xl md:text-4xl">Софти</h2>
-        <p class="mt-3 text-zinc-500 max-w-xl">Доступно <span id="softCount" class="text-brand-orange font-semibold">7</span> <span id="softWord">софтів</span></p>
+        <p class="mt-3 text-zinc-500 max-w-xl">Доступно <span id="softCount" class="text-brand-orange font-semibold">8</span> <span id="softWord">софтів</span></p>
       </div>
 
       <div class="flex flex-col lg:flex-row gap-8">
@@ -349,6 +349,17 @@
             <div class="p-5">
               <h3 class="font-semibold text-lg">Nous</h3>
               <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">airdrops</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="" data-type="ui requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 grid place-items-center">
+              <i class="ti ti-photo text-6xl text-zinc-300 dark:text-zinc-600"></i>
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">Abstract</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">UI</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
             </div>
           </article>
 
@@ -545,9 +556,12 @@
       const chips = [...document.querySelectorAll('.filter-chip')];
       const active = { vid: new Set(), type: new Set() };
 
-      const matches = (c) =>
-        (active.vid.size === 0 || active.vid.has(c.dataset.vid)) &&
-        (active.type.size === 0 || active.type.has(c.dataset.type));
+      const matches = (c) => {
+        const vidOk = active.vid.size === 0 || active.vid.has(c.dataset.vid);
+        const types = (c.dataset.type || '').split(' ').filter(Boolean);
+        const typeOk = active.type.size === 0 || types.some(t => active.type.has(t));
+        return vidOk && typeOk;
+      };
 
       const plural = (n) => {
         const a = n % 100, b = n % 10;

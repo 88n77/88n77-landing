@@ -253,6 +253,24 @@
         ],
         about:`<p>Nous Research — компанія зі <strong class="${B}">штучного інтелекту</strong>, що спеціалізується на <strong class="${B}">open-source</strong> людиноорієнтованих мовних моделях і симуляторах.</p><p class="mt-4">Фокус — на системах ШІ, тісно повʼязаних із реальним користувацьким досвідом: архітектура моделей, синтез даних, точне налаштування та міркування.</p>`,
       },
+      'abstract': {
+        name:'Abstract', status:'working', tags:['UI','Запити','dally'],
+        site:'https://portal.abs.xyz/rewards',
+        shot:'assets/img/abstract-menu.png',
+        features:[
+          'Тримає щоденний стрік сам — щодня апвоутить за тебе, стрік росте без твоєї участі (до постійного XP-мультиплікатора за 30 днів)',
+          'Розумний вибір апки — голосує рівно за 1 проєкт на день і бере той, за який цей акаунт ще не голосував цього тижня',
+          'Не марнує дії — якщо акаунт уже проголосував сьогодні, бот його миттєво пропускає',
+          'Мульти-акаунт — десятки акаунтів з однієї панелі, послідовно або паралельно',
+          'Свій проксі на кожен акаунт (SOCKS5) — кожен акк ходить зі своєї IP',
+          'Режим 24/7 — автоматичний прохід щодоби після ресету, з рандомним розкидом у часі',
+          'Лічильник стріку в реальному часі — у логах видно, скільки днів зібрано по кожному акаунту',
+          'Стелс-поведінка — людські паузи, рандомні затримки, справжній браузерний підпис (EIP-712 через embedded-гаманець)',
+          'Сповіщення в Telegram',
+          'Підтримка оновлення софта протягом усього періоду',
+        ],
+        about:`<p>Abstract — орієнтований на споживача блокчейн на передовій <strong class="${B}">ZK</strong>-криптографії для споживчої крипти, керований культурною економікою. Використовує <strong class="${B}">ZK Stack</strong> та <strong class="${B}">EigenDA</strong>.</p>`,
+      },
     };
 
     // ===== EN-переклад (тільки те, що відрізняється) =====
@@ -356,6 +374,21 @@
         ],
         about:`<p>Nous Research is an <strong class="${B}">artificial intelligence</strong> company specializing in <strong class="${B}">open-source</strong>, human-centric language models and simulators.</p><p class="mt-4">The focus is on AI systems closely tied to real user experience: model architecture, data synthesis, fine-tuning and reasoning.</p>`,
       },
+      'abstract': {
+        features:[
+          'Keeps your daily streak on its own — upvotes for you every day, the streak grows without you (up to the permanent XP multiplier after 30 days)',
+          'Smart app pick — votes for exactly 1 project per day, choosing one this account has not voted for this week',
+          'No wasted actions — if an account already voted today, the bot skips it instantly',
+          'Multi-account — dozens of accounts from one panel, sequentially or in parallel',
+          'Own proxy per account (SOCKS5) — each account uses its own IP',
+          '24/7 mode — automatic daily run after the reset, with a random time spread',
+          'Real-time streak counter — logs show how many days each account has collected',
+          'Stealth behavior — human pauses, random delays, a real browser signature (EIP-712 via embedded wallet)',
+          'Telegram notifications',
+          'Free software updates for the whole period',
+        ],
+        about:`<p>Abstract is a consumer-focused blockchain built on cutting-edge <strong class="${B}">ZK</strong> cryptography for consumer crypto, driven by a cultural economy. It uses <strong class="${B}">ZK Stack</strong> and <strong class="${B}">EigenDA</strong>.</p>`,
+      },
     };
 
     // ===== UI-підписи =====
@@ -396,8 +429,9 @@
         </a>
 
         <div class="relative rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 aspect-[3/1]">
-          <img src="${esc(s.banner)}" alt="${esc(s.name)}" class="absolute inset-0 w-full h-full object-cover">
-          <div class="absolute inset-0 pointer-events-none dark:bg-[radial-gradient(125%_125%_at_50%_42%,transparent_46%,rgba(10,10,10,0.92)_100%)]"></div>
+          ${s.banner
+            ? `<img src="${esc(s.banner)}" alt="${esc(s.name)}" class="absolute inset-0 w-full h-full object-cover"><div class="absolute inset-0 pointer-events-none dark:bg-[radial-gradient(125%_125%_at_50%_42%,transparent_46%,rgba(10,10,10,0.92)_100%)]"></div>`
+            : `<div class="absolute inset-0 grid place-items-center bg-gradient-to-br from-brand-orange/20 to-transparent"><span class="font-display font-extrabold text-4xl md:text-5xl text-brand-orange/50">${esc(s.name)}</span></div>`}
           <span class="status-badge ${st.cls} absolute top-4 left-4 z-10">${st.label}</span>
         </div>
 
