@@ -352,14 +352,14 @@
             </div>
           </article>
 
-          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="mainnet" data-type="ui requests">
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-slug="abstract" data-vid="mainnet" data-type="ui requests">
             <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
               <img src="assets/img/abstract.jpg" alt="Abstract" class="absolute inset-0 w-full h-full object-cover object-center">
               <span class="status-badge st-working absolute top-3 left-3">Working</span>
             </div>
             <div class="p-5">
-              <h3 class="font-semibold text-lg">Abstract</h3>
-              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">mainnet</span><span class="chip-tag">UI</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
+              <h3 class="font-semibold text-lg">Abstract (Dally)</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">mainnet</span><span class="chip-tag">UI</span><span class="chip-tag">Запити</span></div>
             </div>
           </article>
 
@@ -631,7 +631,7 @@
       // клік по картці → сторінка софта + рядок ОС/ціна
       cards.forEach(c => {
         c.style.cursor = 'pointer';
-        const slug = (c.querySelector('h3')?.textContent || '').trim().toLowerCase().replace(/\s+/g, '-');
+        const slug = c.dataset.slug || (c.querySelector('h3')?.textContent || '').trim().toLowerCase().replace(/\s+/g, '-');
         c.addEventListener('click', () => { if (slug) location.href = 'soft.html?id=' + encodeURIComponent(slug); });
         const body = c.querySelector('.p-5');
         if (body && !body.querySelector('.os-row')) {
