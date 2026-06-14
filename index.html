@@ -352,14 +352,14 @@
             </div>
           </article>
 
-          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="" data-type="ui requests">
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="mainnet" data-type="ui requests">
             <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 grid place-items-center">
               <i class="ti ti-photo text-6xl text-zinc-300 dark:text-zinc-600"></i>
               <span class="status-badge st-working absolute top-3 left-3">Working</span>
             </div>
             <div class="p-5">
               <h3 class="font-semibold text-lg">Abstract</h3>
-              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">UI</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">mainnet</span><span class="chip-tag">UI</span><span class="chip-tag">Запити</span><span class="chip-tag">dally</span></div>
             </div>
           </article>
 
@@ -626,7 +626,7 @@
       // платформи по софту (дефолт — Windows/macOS/Linux) + ціни
       const OS_ICON = { windows:['ti-brand-windows','Windows'], mac:['ti-brand-apple','macOS'], linux:['ti-brand-ubuntu','Linux'], android:['ti-brand-android','Android'], web:['ti-world','Web'] };
       const OS_BY_SLUG = { 'june':['windows','mac'] };
-      const PRICE_BY_SLUG = { 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20 };
+      const PRICE_BY_SLUG = { 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15 };
 
       // клік по картці → сторінка софта + рядок ОС/ціна
       cards.forEach(c => {
