@@ -121,11 +121,31 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
+    const PRICE = { 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
     const SOFTS = {
+      'ethra': {
+        name:'Ethra Protocol', status:'working', tags:['testnet','Запити'],
+        site:'https://app.ethraship.io/?referralCode=incredible-jester-1167',
+        banner:'assets/img/ethra.jpg',
+        video:'assets/video/ethra.mp4',
+        features:[
+          'Авто-вхід через гаманець',
+          'Реєстрація нового акаунта з нуля',
+          'Реферальна система (підтримка кількох реф-кодів)',
+          'Повне виконання завдань',
+          'Проходження всіх квізів автоматично з правильними відповідями',
+          'Соцзавдання',
+          'Мульти-акаунт: режими single (по черзі) та multi (паралельно з розкидом старту)',
+          'Проксі 1 на акаунт, підтримка кількох форматів',
+          'Рандомні паузи між акаунтами, діями та квіз-питаннями',
+          'Повна статистика в базі: бали, реф-коди, статуси завдань, час останнього запуску',
+          'Telegram-сповіщення: логи, підсумки по акаунтах, помилки',
+        ],
+        about:`<p>EthraProtocol — протокол реальних активів (<strong class="${B}">RWA</strong>), що прагне відкрити доступ до <strong class="${B}">морської індустрії</strong> за допомогою технологій <strong class="${B}">Web3</strong>.</p>`,
+      },
       'dac-chain': {
         name:'Dac Chain', status:'working', tags:['testnet','Запити'],
         tagline:'by 88n77 Automation',
@@ -295,6 +315,22 @@
 
     // ===== EN-переклад (тільки те, що відрізняється) =====
     const SOFTS_EN = {
+      'ethra': {
+        features:[
+          'Wallet auto-login',
+          'Registering a new account from scratch',
+          'Referral system (multiple referral codes supported)',
+          'Full task completion',
+          'Auto-solving all quizzes with the correct answers',
+          'Social tasks',
+          'Multi-account: single (one by one) and multi (parallel with staggered start) modes',
+          '1 proxy per account, multiple formats supported',
+          'Random pauses between accounts, actions and quiz questions',
+          'Full stats in the database: points, referral codes, task statuses, last run time',
+          'Telegram notifications: logs, per-account summaries, errors',
+        ],
+        about:`<p>EthraProtocol is a real-world assets (<strong class="${B}">RWA</strong>) protocol aiming to open access to the <strong class="${B}">maritime industry</strong> through <strong class="${B}">Web3</strong> technologies.</p>`,
+      },
       'dac-chain': {
         features:[
           'Single-task or full-work support',

@@ -110,6 +110,12 @@
     #how .how-card:hover { transform: translateY(-6px); border-color:#FF6B00; box-shadow: 0 16px 40px rgba(255,107,0,0.18); }
     .how-num { transition: text-shadow .25s ease, transform .25s ease; }
     #how .how-card:hover .how-num { text-shadow: 0 0 22px rgba(255,107,0,0.65); transform: scale(1.04); }
+
+    /* вкладки Активні / Неактивні */
+    .status-tab { transition: color .2s, background .2s; color:#71717a; }
+    .status-tab:hover { color:#FF6B00; }
+    .status-tab.tab-on { background:#FF6B00; color:#fff; }
+    .status-tab.tab-on:hover { color:#fff; }
   </style>
 </head>
 
@@ -247,6 +253,11 @@
         <p class="mt-3 text-zinc-500 max-w-xl">Доступно <span id="softCount" class="text-brand-orange font-semibold">9</span> <span id="softWord">софтів</span></p>
       </div>
 
+      <div class="mb-8 inline-flex rounded-xl border border-zinc-200 dark:border-zinc-800 p-1 text-sm font-semibold">
+        <button class="status-tab px-4 py-2 rounded-lg" data-active="1">Активні</button>
+        <button class="status-tab px-4 py-2 rounded-lg" data-active="0">Неактивні</button>
+      </div>
+
       <div class="flex flex-col lg:flex-row gap-8">
         <!-- Панель фільтрів -->
         <aside class="lg:w-64 shrink-0">
@@ -275,6 +286,17 @@
         <!-- Сітка софтів -->
         <div id="softGrid" class="grid sm:grid-cols-2 gap-6 flex-1 content-start">
 
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-slug="ethra" data-vid="testnet" data-type="requests">
+            <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
+              <img src="assets/img/ethra.jpg" alt="Ethra Protocol" class="absolute inset-0 w-full h-full object-cover">
+              <span class="status-badge st-working absolute top-3 left-3">Working</span>
+            </div>
+            <div class="p-5">
+              <h3 class="font-semibold text-lg">Ethra Protocol</h3>
+              <div class="mt-2 flex flex-wrap gap-2"><span class="chip-tag">testnet</span><span class="chip-tag">Запити</span></div>
+            </div>
+          </article>
+
           <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="testnet" data-type="requests">
             <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
               <img src="assets/img/dac-chain.jpg" alt="Dac Chain" class="absolute inset-0 w-full h-full object-cover">
@@ -286,7 +308,7 @@
             </div>
           </article>
 
-          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-vid="testnet" data-type="requests">
+          <article class="soft-card group rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 overflow-hidden hover:border-brand-orange transition" data-active="0" data-vid="testnet" data-type="requests">
             <div class="relative aspect-[3/1] bg-zinc-100 dark:bg-zinc-800/60 overflow-hidden">
               <img src="assets/img/litvm.jpg" alt="LitVM" class="absolute inset-0 w-full h-full object-cover">
               <span class="status-badge st-update absolute top-3 left-3">Updating</span>
@@ -566,8 +588,12 @@
       const cards = [...grid.querySelectorAll('.soft-card')];
       const chips = [...document.querySelectorAll('.filter-chip')];
       const active = { vid: new Set(), type: new Set() };
+      let activeTab = '1';
 
       const matches = (c) => {
+        const isActive = c.dataset.active !== '0';
+        if (activeTab === '1' && !isActive) return false;
+        if (activeTab === '0' && isActive) return false;
         const vidOk = active.vid.size === 0 || active.vid.has(c.dataset.vid);
         const types = (c.dataset.type || '').split(' ').filter(Boolean);
         const typeOk = active.type.size === 0 || types.some(t => active.type.has(t));
@@ -637,7 +663,7 @@
       // платформи по софту (дефолт — Windows/macOS/Linux) + ціни
       const OS_ICON = { windows:['ti-brand-windows','Windows'], mac:['ti-brand-apple','macOS'], linux:['ti-brand-ubuntu','Linux'], android:['ti-brand-android','Android'], web:['ti-world','Web'] };
       const OS_BY_SLUG = { 'june':['windows','mac'] };
-      const PRICE_BY_SLUG = { 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
+      const PRICE_BY_SLUG = { 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
 
       // клік по картці → сторінка софта + рядок ОС/ціна
       cards.forEach(c => {
@@ -663,6 +689,15 @@
         chips.forEach(c => c.classList.remove('chip-active'));
         apply();
       });
+
+      const tabs = [...document.querySelectorAll('.status-tab')];
+      function setTab(v) {
+        activeTab = v;
+        tabs.forEach(t => t.classList.toggle('tab-on', t.dataset.active === v));
+        apply();
+      }
+      tabs.forEach(t => t.addEventListener('click', () => setTab(t.dataset.active)));
+      setTab('1');
 
       window.addEventListener('langchange', () => updateCount(cards.filter(c => c.style.display !== 'none').length));
     })();
@@ -692,6 +727,8 @@
       "Запити":"Requests",
       "Скинути фільтр":"Reset filter",
       "Детальніше":"Details",
+      "Активні":"Active",
+      "Неактивні":"Inactive",
       "назавжди":"lifetime",
       "Бот для масового спілкування в Discord каналах":"A bot for mass communication in Discord channels",
       "Chrome розширення для автоматичних реплаїв та скролінг стрічки на X":"Chrome extension for automatic replies and feed scrolling on X",
