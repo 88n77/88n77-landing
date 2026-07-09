@@ -121,11 +121,33 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
+    const PRICE = { 'unicity':15, 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
     const SOFTS = {
+      'unicity': {
+        name:'Unicity', status:'working', tags:['testnet','UI','Запити'],
+        site:'https://quest.unicity.network/?ref=SQKU9TUO',
+        banner:'assets/img/unicity.jpg',
+        features:[
+          'Антибан: рандомні паузи, розкид старту, людські затримки між діями',
+          'Підтримка проксі на кожен акаунт',
+          'Автогенерація нових гаманців пачками + резервні копії сідів',
+          'Авто-створення ніку (Unicity ID) для кожного гаманця',
+          'Підключення соцмереж: X (Twitter) + Discord через токени, без браузера',
+          'Дії в X автоматично: follow, retweet, quote, tweet — з обходом антибот-захисту',
+          'Daily Check-in щодня (+ бонус за стрік)',
+          'Авто-клейм досягнень (achievements) — безкоштовний XP',
+          'Авто-мінт тестових токенів (Top Up)',
+          'Авто-відправка транзакцій',
+          'Кількість транзакцій — авто (читає вимогу з квесту) або вручну',
+          'Реферальна система',
+          'Telegram-сповіщення',
+          'Парсинг XP акаунтів',
+        ],
+        about:`<p>Unicity — децентралізована інфраструктура для автономної взаємодії агентів <strong class="${B}">штучного інтелекту</strong>. На відміну від традиційних блокчейнів зі спільними реєстрами, архітектура Unicity базується на обміні криптографічними об'єктами між вузлами (<strong class="${B}">P2P</strong>).</p><p class="mt-4">Залучили <strong class="${O}">$3 млн</strong> інвестицій від <strong class="${B}">Blockchange Ventures</strong>, <strong class="${B}">Outlier Ventures</strong> та <strong class="${B}">Tawasal</strong>.</p>`,
+      },
       'ethra': {
         name:'Ethra Protocol', status:'working', tags:['testnet','Запити'],
         site:'https://app.ethraship.io/?referralCode=incredible-jester-1167',
@@ -315,6 +337,25 @@
 
     // ===== EN-переклад (тільки те, що відрізняється) =====
     const SOFTS_EN = {
+      'unicity': {
+        features:[
+          'Anti-ban: random pauses, staggered start, human delays between actions',
+          'Proxy support per account',
+          'Bulk auto-generation of new wallets + seed backups',
+          'Auto-creation of a nickname (Unicity ID) for each wallet',
+          'Social connect: X (Twitter) + Discord via tokens, no browser',
+          'Automatic X actions: follow, retweet, quote, tweet — with anti-bot bypass',
+          'Daily check-in every day (+ streak bonus)',
+          'Auto-claim of achievements — free XP',
+          'Auto-mint of test tokens (Top Up)',
+          'Automatic transaction sending',
+          'Transaction count — auto (reads the quest requirement) or manual',
+          'Referral system',
+          'Telegram notifications',
+          'Account XP parsing',
+        ],
+        about:`<p>Unicity is a decentralized infrastructure for autonomous interaction of <strong class="${B}">AI</strong> agents. Unlike traditional blockchains with shared ledgers, Unicity's architecture is based on exchanging cryptographic objects between nodes (<strong class="${B}">P2P</strong>).</p><p class="mt-4">Raised <strong class="${O}">$3M</strong> from <strong class="${B}">Blockchange Ventures</strong>, <strong class="${B}">Outlier Ventures</strong> and <strong class="${B}">Tawasal</strong>.</p>`,
+      },
       'ethra': {
         features:[
           'Wallet auto-login',
