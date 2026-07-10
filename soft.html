@@ -121,11 +121,30 @@
       android: { i:'ti-brand-android', l:'Android' },
       web:     { i:'ti-world',         l:'Web' },
     };
-    const PRICE = { 'unicity':15, 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
+    const PRICE = { 'auralaunch':20, 'unicity':15, 'ethra':25, 'dac-chain':25, 'litvm':35, 'integra':25, 'prismax':'Free', 'simplechain':'Free', 'june':20, 'nous':20, 'abstract':15, 'arcnova':15 };
     const B='font-semibold text-zinc-900 dark:text-white', O='font-semibold text-brand-orange';
 
     // ===== UA контент =====
     const SOFTS = {
+      'auralaunch': {
+        name:'AuraLaunch', status:'working', tags:['testnet','Запити'],
+        banner:'assets/img/auralaunch.jpg',
+        features:[
+          'Повний денний цикл одним натиском: логін → чек-ін → мінт → стейк → забір нагород',
+          'Кран нативного газу (zkLTC) з розв\'язанням Cloudflare-капчі',
+          'Мінт тестових токенів (AURA / REV)',
+          'Стейкінг: approve + stake автоматично',
+          'Автофарм квесту «50+ транзакцій» серією стейків',
+          'Щоденний Check-in',
+          'Автозабір усіх виконаних квестів',
+          'Режими single / multi з паралельною обробкою кількох акаунтів',
+          'Індивідуальні проксі на кожен акаунт (HTTP / SOCKS5)',
+          'Рандомні людські затримки між діями та акаунтами',
+          'Telegram-сповіщення про успіхи та помилки',
+          'Готовий до масштабування на десятки акаунтів',
+        ],
+        about:`<p>Aura Protocol — інфраструктурний проєкт <strong class="${B}">Web3</strong>, який створює екосистему з акцентом на <strong class="${O}">агентів</strong>, <strong class="${B}">автоматизацію</strong> та <strong class="${B}">децентралізовані додатки</strong>.</p>`,
+      },
       'unicity': {
         name:'Unicity', status:'working', tags:['testnet','UI','Запити'],
         site:'https://quest.unicity.network/?ref=SQKU9TUO',
@@ -337,6 +356,23 @@
 
     // ===== EN-переклад (тільки те, що відрізняється) =====
     const SOFTS_EN = {
+      'auralaunch': {
+        features:[
+          'Full daily cycle in one click: login → check-in → mint → stake → claim rewards',
+          'Native gas faucet (zkLTC) with Cloudflare captcha solving',
+          'Minting of test tokens (AURA / REV)',
+          'Staking: approve + stake automatically',
+          'Auto-farming of the "50+ transactions" quest via a series of stakes',
+          'Daily check-in',
+          'Auto-claim of all completed quests',
+          'Single / multi modes with parallel processing of multiple accounts',
+          'Individual proxy per account (HTTP / SOCKS5)',
+          'Random human-like delays between actions and accounts',
+          'Telegram notifications about successes and errors',
+          'Ready to scale to dozens of accounts',
+        ],
+        about:`<p>Aura Protocol is a <strong class="${B}">Web3</strong> infrastructure project building an ecosystem focused on <strong class="${O}">agents</strong>, <strong class="${B}">automation</strong> and <strong class="${B}">decentralized applications</strong>.</p>`,
+      },
       'unicity': {
         features:[
           'Anti-ban: random pauses, staggered start, human delays between actions',
