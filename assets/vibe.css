@@ -258,3 +258,12 @@ body{font-size:18px}
 }
 @media(max-width:360px){.brand-about h2{font-size:38px}.brand-about-copy .brand-about-lead{font-size:23px}.brand-about-copy p{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.tile:not(.tile-soon),.social-menu>a,.service-card,.button,.contact-button,.header-dm,.brand-about .underlined-link,.brand-about .underlined-link svg{transition:none!important}.tile:not(.tile-soon):hover,.social-menu>a:hover,.service-card:hover{transform:none!important}}
+
+/* Language toggle (EN primary / UK). */
+.lang-toggle{flex-shrink:0;display:grid;place-items:center;min-width:46px;height:44px;margin-left:14px;padding:0 13px;font:600 13px/1 var(--mono);letter-spacing:.08em;color:#bcb5ad;background:#161310;border:1px solid #49423d;border-radius:8px;animation:ui-arrive .9s var(--ease) .12s both;transition:color .25s,border-color .25s,background .25s,box-shadow .25s}
+.lang-toggle:hover{color:#ff9c55;border-color:#ff6900;background:#25160d}
+.lang-toggle:focus-visible{outline:2px solid #ff6900;outline-offset:3px}
+@media(max-width:800px){.lang-toggle{margin-left:12px}}
+@media(max-width:620px){.lang-toggle{min-width:42px;height:40px;margin-left:9px;padding:0 10px;font-size:12px}}
+@media(max-width:360px){.lang-toggle{min-width:38px;height:38px;margin-left:7px;padding:0 8px;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.lang-toggle{animation:none;transition:none}}
