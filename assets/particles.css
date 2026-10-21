@@ -1,0 +1,21 @@
+.hero-art.particle-stage{position:relative;align-self:center;height:500px;max-width:100%;margin:0 0 25px;border:1px solid #242424;border-radius:18px;background:radial-gradient(ellipse at 50% 48%,#15151570,transparent 69%),#080808;overflow:hidden;isolation:isolate;cursor:crosshair}
+#particle-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:pan-y}
+.particle-fallback{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font:700 clamp(35px,5vw,80px)/1 Identity,Grotesk,sans-serif;letter-spacing:-.07em;color:#b3b3b3;pointer-events:none;white-space:nowrap}
+.particle-stage.is-ready .particle-fallback{visibility:hidden}
+.particle-hud-top,.particle-hud-bottom{position:absolute;left:16px;right:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;pointer-events:none;font:10px/1.4 Consolas,"Courier New",monospace;letter-spacing:.12em;text-transform:uppercase;color:#74747d}
+.particle-hud-top{top:16px}.particle-hud-bottom{bottom:16px}
+.particle-badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #262323;border-radius:4px;padding:4px 8px;background:#020202ba;color:#b2adb0;white-space:nowrap;font:inherit;letter-spacing:inherit}
+.particle-badge b{color:var(--orange,#ff6900);font-weight:500}
+.particle-coordinates{font-size:9px;color:#77717a;letter-spacing:.13em;white-space:nowrap}
+.particle-caption{font-size:9px;color:#77717a;letter-spacing:.11em}
+.particle-toggle{pointer-events:auto;cursor:pointer;transition:border-color .2s,background .2s}
+.particle-toggle:hover{border-color:#745036;background:#1d1209}
+.particle-toggle[aria-pressed=true] b{color:#aaa19b}
+.particle-touch-hint{display:none}
+@media(min-width:1500px){.hero-art.particle-stage{height:526px}}
+@media(max-width:1150px){.hero-art.particle-stage{height:450px}.particle-hud-top,.particle-hud-bottom{left:12px;right:12px;font-size:8px;gap:8px}.particle-caption{font-size:6px;letter-spacing:.08em}.particle-coordinates{font-size:7px}.particle-badge{padding:4px 6px;gap:4px}}
+@media(max-width:900px){.hero-art.particle-stage{height:420px}.particle-hud-top{top:12px}.particle-hud-bottom{bottom:12px}.particle-hud-top,.particle-hud-bottom{font-size:7px}.particle-caption{max-width:135px;line-height:1.7}.particle-coordinates{font-size:6px}}
+@media(max-width:620px){.hero-art.particle-stage{height:310px;margin:35px 0 24px;width:100%;border-radius:14px}.particle-hud-top,.particle-hud-bottom{left:12px;right:12px;font-size:7px}.particle-hud-top{top:13px}.particle-hud-bottom{bottom:13px}.particle-caption{font-size:6px;max-width:175px;letter-spacing:.06em}.particle-coordinates{font-size:6px}.particle-fallback{font-size:46px}.particle-badge{padding:5px 6px}.particle-toggle{min-height:30px}}
+@media(max-width:360px){.hero-art.particle-stage{height:280px;margin-top:30px}.particle-hud-top,.particle-hud-bottom{left:10px;right:10px;gap:6px}.particle-hud-top{font-size:6px}.particle-caption{font-size:5px;max-width:148px}.particle-coordinates{font-size:5px}.particle-hud-bottom{font-size:6px}}
+@media(hover:none){.particle-desktop-hint{display:none}.particle-touch-hint{display:inline}}
+@media(prefers-reduced-motion:reduce){.particle-toggle{transition:none}}
